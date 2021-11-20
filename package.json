@@ -1,0 +1,31 @@
+{
+  "name": "maykbot",
+  "version": "1.0.0",
+  "description": "Maunulan Yhteiskoulu Botti - ruokaa, uutisia, blogi, sää ja paljon muuta!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theZeriax/MaykBot.git"
+  },
+  "keywords": [
+    "maykbot",
+    "discordbot",
+    "discord",
+    "discord.js",
+    "mayk"
+  ],
+  "author": "theZeriax",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/theZeriax/MaykBot/issues"
+  },
+  "homepage": "https://github.com/theZeriax/MaykBot#readme",
+  "dependencies": {
+    "discord.js": "^13.3.1",
+    "nodemon": "^2.0.15",
+    "selenium-webdriver": "^4.0.0"
+  }
+}
