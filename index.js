@@ -7,7 +7,9 @@ const {
   MessageActionRow,
 } = require("discord.js");
 const config = require("./config.json");
+const status = require("./json/status.json");
 const fs = require("fs");
+const { millify } = require("millify");
 
 const client = new Discord.Client({
   intents: 32767,
@@ -27,20 +29,26 @@ for (const file of commandFiles) {
 // Cooldowns
 const cooldowns = new Discord.Collection();
 
+const maykStatus = setInterval(() => {
+  client.user.setActivity(
+    `${status.statuses[Math.floor(Math.random() * status.statuses.length)]}`,
+    {
+      type: `STREAMING`,
+      url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    }
+  );
+}, 5000);
+
 // On Ready
 client.once("ready", () => {
   console.log(`${client.user.username} is ready!`);
   //   set custom status
   client.user.setStatus("idle");
-  client.user.setActivity("Maunulan yhteiskoulu", {
-    type: "WATCHING",
-    url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-  });
+  maykStatus;
 });
 
 // On Message
 client.on("messageCreate", (message) => {
-  config.prefix.toLowerCase();
   message.content.toLowerCase();
   if (!message.content.startsWith(config.prefix) || message.author.bot) return;
 
@@ -58,15 +66,15 @@ client.on("messageCreate", (message) => {
 
   // Check if command can be executed in DM
   if (command.guildOnly && message.channel.type !== "text") {
-    return message.reply("I can't execute that command inside DMs!");
+    return message.reply("Et voi käyttää tämän komennon YVssä!");
   }
 
   // Check if args are required
   if (command.args && !args.length) {
-    let reply = `You didn't provide any arguments, ${message.author.username}!`;
+    let reply = `, ${message.author.username}!`;
 
     if (command.usage) {
-      reply += `\nThe proper usage would be: \`${config.prefix}${command.name} ${command.usage}\``;
+      reply += `\nOikea käyttö olisi: \`${config.prefix}${command.name} ${command.usage}\``;
     }
 
     return message.channel.send(reply);
@@ -88,9 +96,9 @@ client.on("messageCreate", (message) => {
       // If user is in cooldown
       const timeLeft = (expirationTime - now) / 1000;
       return message.reply(
-        `please wait ${timeLeft.toFixed(
-          1
-        )} more second(s) before reusing the \`${command.name}\` command.`
+        `Odota vielä ${millify(timeLeft.toFixed(1))} ennen kun käytät \`${
+          command.name
+        }\` komennon.`
       );
     }
   } else {
@@ -98,10 +106,10 @@ client.on("messageCreate", (message) => {
     setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
     // Execute command
     try {
-      command.execute(message, args, command);
+      command.execute(message, args, command, fetch(), client);
     } catch (error) {
       console.error(error);
-      message.reply("there was an error trying to execute that command!");
+      message.reply(`:x: **Tapahtui virhe:**\n\`${error}\``);
     }
   }
 });

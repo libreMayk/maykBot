@@ -19,12 +19,16 @@
   ],
   "author": "theZeriax",
   "license": "Apache-2.0",
+  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/theZeriax/MaykBot/issues"
   },
   "homepage": "https://github.com/theZeriax/MaykBot#readme",
   "dependencies": {
     "discord.js": "^13.3.1",
+    "mathjs": "^10.0.0",
+    "millify": "^4.0.0",
+    "node-fetch": "^3.1.0",
     "nodemon": "^2.0.15",
     "selenium-webdriver": "^4.0.0"
   }

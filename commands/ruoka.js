@@ -1,7 +1,7 @@
 // const getFood = require("../scripts/getFood");
 const { Builder } = require("selenium-webdriver");
-const fs = require("fs");
 const { Options } = require("selenium-webdriver/firefox");
+const fs = require("fs");
 
 module.exports = {
   name: "ruoka",
@@ -11,11 +11,11 @@ module.exports = {
   guildOnly: false,
   memberpermissions: "VIEW_CHANNEL",
   adminPermOverride: true,
-  cooldown: 2,
+  cooldown: 15,
   usage: "<prefix>hello",
   async execute(message, args) {
     // declare sent message, or the message by the bot itself
-    message.reply("Pieni hetki, info lataa...").then((sentMessage) => {
+    message.reply(":gear: *Pieni hetki, info lataa...*").then((sentMessage) => {
       // timeout for the message
       setTimeout(() => {
         sentMessage.edit(`
@@ -69,12 +69,12 @@ module.exports = {
                 className: "ruoka-header-pvm",
               })
               .getText()}**:
-              ${await e
+              🍽️  ${await e
                 .findElement({
                   className: "ruoka-header-ruoka",
                 })
                 .getText()}
-              ${(
+              🌱  ${(
                 await e
                   .findElement({
                     className: "ruoka-header-kasvisruoka",

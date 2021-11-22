@@ -1,0 +1,9 @@
+{
+  "statuses": [
+    "Maunulan Yhteiskoulu",
+    "Kouluruoka",
+    "Sää Maunulassa",
+    "Uutiset MAYK:istä"
+  ],
+  "types": ["PLAYING", "WATCHING", "LISTENING"]
+}

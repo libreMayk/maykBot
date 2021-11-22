@@ -1,6 +1,6 @@
 module.exports = {
-  name: "help",
-  aliases: ["apua", "auta", "помоги"],
+  name: "apua",
+  aliases: ["auta", "help"],
   description: "Apua!",
   category: "info",
   guildOnly: false,
@@ -11,7 +11,7 @@ module.exports = {
   execute(message, args) {
     message.reply(`
         Kaikki komennot:\n\n${
-          // list all commands
+          // listaa kaikki komennot
           message.client.commands
             // .filter((cmd) => cmd.name !== "help")
             .map(
