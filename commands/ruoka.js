@@ -2,6 +2,7 @@
 const { Builder } = require("selenium-webdriver");
 const { Options } = require("selenium-webdriver/firefox");
 const fs = require("fs");
+const config = require("../config.json");
 
 module.exports = {
   name: "ruoka",
@@ -12,7 +13,7 @@ module.exports = {
   memberpermissions: "VIEW_CHANNEL",
   adminPermOverride: true,
   cooldown: 15,
-  usage: "<prefix>hello",
+  usage: `${config.prefix}${this.name}`,
   async execute(message, args) {
     // declare sent message, or the message by the bot itself
     message.reply(":gear: *Pieni hetki, info lataa...*").then((sentMessage) => {

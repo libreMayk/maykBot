@@ -14,7 +14,7 @@ module.exports = {
   memberpermissions: "VIEW_CHANNEL",
   adminPermOverride: true,
   cooldown: 2,
-  usage: "",
+  usage: `${config.prefix}${this.name}`,
   async execute(message, args) {
     message.reply(":gear: *Pieni hetki, info lataa...*").then((sentMessage) => {
       // timeout for the message
@@ -57,23 +57,19 @@ module.exports = {
         })
         .getText();
 
-      let lat = config.maykLat;
-      let lon = config.maykLon;
-      let apiKey = config.weatherApiKey;
-      const ilmankosteus = async () =>
-        await fetch(
-          `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        )
-          .then((response) => response.json())
-          .then((json) => {
-            return json.main.humidity;
-          });
+      // let lat = config.maykLat;
+      // let lon = config.maykLon;
+      // let apiKey = config.weatherApiKey;
+      // const ilmankosteus = async () =>
+      //   fetch(
+      //     `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`,
+      //     {
+      //       method: "GET",
+      //       headers: {
+      //         "Content-Type": "application/json",
+      //       },
+      //     }
+      //   ).then((response) => response.json());
 
       const weatherEmoji =
         weatherMojis.emojisText[
@@ -102,11 +98,11 @@ module.exports = {
             } hPa`,
             inline: true,
           },
-          {
-            name: "Ilmankosteus",
-            value: `${ilmankosteus}%`,
-            inline: true,
-          },
+          // {
+          //   name: "Ilmankosteus",
+          //   value: `${/* ilmankosteus */ `None`}%`,
+          //   inline: true,
+          // },
           {
             name: "Tuuli",
             value: `${tuuli}`,

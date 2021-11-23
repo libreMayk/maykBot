@@ -1,5 +1,7 @@
 node_modules
+my-modules
 config.json
 storage.txt
 .vscode
 geckodriver.exe
+wilmaCred.json

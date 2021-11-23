@@ -9,7 +9,7 @@ const {
 const config = require("./config.json");
 const status = require("./json/status.json");
 const fs = require("fs");
-const { millify } = require("millify");
+const prettySeconds = require("./my-modules/pretty-seconds-suomi");
 
 const client = new Discord.Client({
   intents: 32767,
@@ -96,9 +96,9 @@ client.on("messageCreate", (message) => {
       // If user is in cooldown
       const timeLeft = (expirationTime - now) / 1000;
       return message.reply(
-        `Odota vielä ${millify(timeLeft.toFixed(1))} ennen kun käytät \`${
-          command.name
-        }\` komennon.`
+        `Odota vielä ${
+          prettySeconds(timeLeft) + prettySeconds(timeLeft.toFixed(1))
+        } ennen kun käytät \`${command.name}\` komennon.`
       );
     }
   } else {
@@ -106,7 +106,7 @@ client.on("messageCreate", (message) => {
     setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
     // Execute command
     try {
-      command.execute(message, args, command, fetch(), client);
+      command.execute(message, args, command, config, client);
     } catch (error) {
       console.error(error);
       message.reply(`:x: **Tapahtui virhe:**\n\`${error}\``);

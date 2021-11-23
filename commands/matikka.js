@@ -11,7 +11,7 @@ module.exports = {
   memberpermissions: "VIEW_CHANNEL",
   adminPermOverride: true,
   cooldown: 2,
-  usage: `${config.prefix}matikka <lauseke>`,
+  usage: `${config.prefix}${this.name} <lauseke>`,
   execute(message, args) {
     if (args.length < 1) {
       return message.reply(`**Käytä**: \`${this.usage}\``);

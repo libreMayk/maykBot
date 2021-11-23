@@ -30,6 +30,8 @@
     "millify": "^4.0.0",
     "node-fetch": "^3.1.0",
     "nodemon": "^2.0.15",
+    "openwilma": "github:OpenWilma/openwilma_js",
+    "pretty-seconds": "^1.0.1",
     "selenium-webdriver": "^4.0.0"
   }
 }
