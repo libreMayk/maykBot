@@ -2,8 +2,8 @@ const { MessageEmbed } = require("discord.js");
 const puppeteer = require("puppeteer");
 
 module.exports = {
-  name: "news",
-  aliases: ["uutiset"],
+  name: "yle",
+  aliases: ["yle-uutiset", "yle-news", "news", "uutiset"],
   description: "Uutisia Ylestä!",
   category: "category",
   guildOnly: false,
@@ -21,6 +21,9 @@ module.exports = {
     const [title] = await page.$x(
       "//h3[@class='Typography__ResponsiveTypography-sc-1his0m9-1 gbPrlN link-accent']"
     );
+    const [desc] = await page.$x(
+      "//p[@class='Typography-sc-1his0m9-0 ixVCar']"
+    );
     const [image] = await page.$x(
       "//img[@class='ResponsiveImage__Img-sc-yvl7gl-0 gpkPTK']"
     );
@@ -34,6 +37,7 @@ module.exports = {
       "//span[@class='Tag__Chip-sc-d06pgy-2 grlKv']"
     );
     const titleNew = await title.getProperty("textContent");
+    const descNew = await desc.getProperty("textContent");
     const imageNew = await image.getProperty("src");
     const linkNew = await link.getProperty("href");
     const timeNew = await time.getProperty("textContent");
@@ -41,9 +45,9 @@ module.exports = {
 
     const newsEmbed = new MessageEmbed()
       .setColor("NOT_QUITE_BLACK")
-      .setTitle("Uutiset")
+      .setTitle(`${await titleNew.jsonValue()}`)
       .setURL(`${await linkNew.jsonValue()}`)
-      .setDescription(`${await titleNew.jsonValue()}`)
+      .setDescription(`${await descNew.jsonValue()}`)
       .setImage(`${await imageNew.jsonValue()}`)
       .setFooter(
         `${await subjectNew.jsonValue()} | ${await timeNew.jsonValue()}`
