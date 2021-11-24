@@ -4,6 +4,8 @@ const { MessageEmbed } = require("discord.js");
 const fs = require("fs");
 const weatherMojis = require("../json/weatherMojis.json");
 const config = require("../config.json");
+const fetch = (...args) =>
+  import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 module.exports = {
   name: "saa",
@@ -15,7 +17,7 @@ module.exports = {
   adminPermOverride: true,
   cooldown: 2,
   usage: `${config.prefix}${this.name}`,
-  async execute(message, args) {
+  async execute(message, args, client) {
     message.reply(":gear: *Pieni hetki, info lataa...*").then((sentMessage) => {
       // timeout for the message
       setTimeout(() => {
@@ -57,19 +59,25 @@ module.exports = {
         })
         .getText();
 
-      // let lat = config.maykLat;
-      // let lon = config.maykLon;
-      // let apiKey = config.weatherApiKey;
-      // const ilmankosteus = async () =>
-      //   fetch(
-      //     `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`,
-      //     {
-      //       method: "GET",
-      //       headers: {
-      //         "Content-Type": "application/json",
-      //       },
-      //     }
-      //   ).then((response) => response.json());
+      let lat = config.maykLat;
+      let lon = config.maykLon;
+      let apiKey = config.weatherApiKey;
+      const ilmankosteus = async () =>
+        fetch(
+          `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric.json`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+          .then((response) => {
+            response.json();
+          })
+          .then((data) => {
+            return data;
+          });
 
       const weatherEmoji =
         weatherMojis.emojisText[
@@ -100,7 +108,7 @@ module.exports = {
           },
           // {
           //   name: "Ilmankosteus",
-          //   value: `${/* ilmankosteus */ `None`}%`,
+          //   value: `${ilmankosteus()}%`,
           //   inline: true,
           // },
           {

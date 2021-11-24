@@ -5,3 +5,4 @@ storage.txt
 .vscode
 geckodriver.exe
 wilmaCred.json
+.env

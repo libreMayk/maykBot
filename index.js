@@ -10,6 +10,7 @@ const config = require("./config.json");
 const status = require("./json/status.json");
 const fs = require("fs");
 const prettySeconds = require("./my-modules/pretty-seconds-suomi");
+const dotenv = require("dotenv").config();
 
 const client = new Discord.Client({
   intents: 32767,
@@ -65,7 +66,11 @@ client.on("messageCreate", (message) => {
   if (!command) return;
 
   // Check if command can be executed in DM
-  if (command.guildOnly && message.channel.type !== "text") {
+  if (
+    command.guildOnly &&
+    message.channel.type !== "text" &&
+    !message.guildId
+  ) {
     return message.reply("Et voi käyttää tämän komennon YVssä!");
   }
 
@@ -74,7 +79,7 @@ client.on("messageCreate", (message) => {
     let reply = `, ${message.author.username}!`;
 
     if (command.usage) {
-      reply += `\nOikea käyttö olisi: \`${config.prefix}${command.name} ${command.usage}\``;
+      reply += `\nOikea komennon käyttö olisi: \`${config.prefix}${command.name} ${command.usage}\``;
     }
 
     return message.channel.send(reply);

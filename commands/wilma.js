@@ -6,7 +6,7 @@ const api = new OpenWilma();
 module.exports = {
   name: "wilma",
   aliases: ["wilma"],
-  description: "description",
+  description: "Katso kotitehtävät ja kokeet Wilmasta!",
   category: "info",
   guildOnly: false,
   memberpermissions: "VIEW_CHANNEL",
