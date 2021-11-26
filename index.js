@@ -8,9 +8,12 @@ const {
 } = require("discord.js");
 const config = require("./config.json");
 const status = require("./json/status.json");
+const { REST } = require("@discordjs/rest");
+const { Routes } = require("discord-api-types/v9");
 const fs = require("fs");
 const prettySeconds = require("./my-modules/pretty-seconds-suomi");
 const dotenv = require("dotenv").config();
+const { SlashCommandBuilder } = require("@discordjs/builders");
 
 const client = new Discord.Client({
   intents: 32767,
@@ -26,6 +29,11 @@ for (const file of commandFiles) {
   const command = require(`./commands/` + file);
   client.commands.set(command.name, command);
 }
+
+const clientId = "911661457249280021";
+const guildId = config.acceptedGuilds[1];
+
+const rest = new REST({ version: "9" }).setToken(config.token);
 
 // Cooldowns
 const cooldowns = new Discord.Collection();
@@ -46,6 +54,20 @@ client.once("ready", () => {
   //   set custom status
   client.user.setStatus("idle");
   maykStatus;
+
+  (async () => {
+    try {
+      console.log("Started refreshing application (/) commands.");
+
+      await rest.put(Routes.applicationCommands(clientId), {
+        body: client.commands,
+      });
+
+      console.log("Successfully reloaded application (/) commands.");
+    } catch (error) {
+      console.error(error);
+    }
+  })();
 });
 
 // On Message
@@ -88,6 +110,19 @@ client.on("messageCreate", (message) => {
   // Check if user is in cooldown
   if (!cooldowns.has(command.name)) {
     cooldowns.set(command.name, new Discord.Collection());
+  }
+
+  // Check if user has permission
+  if (
+    command.adminPermOverride === true &&
+    !message.member.permissions.has(!Discord.Permissions.FLAGS.ADMINISTRATOR)
+  ) {
+    return message.reply(`Sinulla ei ole oikeuksia käyttää tätä komentoa!`);
+  }
+
+  // Check if dev command
+  if (command.dev === true && message.author.id !== config.devId) {
+    return message.reply(`Tämä komento on vain kehittäjille!`);
   }
 
   const now = Date.now();

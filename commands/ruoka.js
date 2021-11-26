@@ -3,6 +3,8 @@ const { Builder } = require("selenium-webdriver");
 const { Options } = require("selenium-webdriver/firefox");
 const fs = require("fs");
 const config = require("../config.json");
+const { SlashCommandBuilder } = require("@discordjs/builders");
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
   name: "ruoka",
@@ -11,12 +13,12 @@ module.exports = {
   category: "info",
   guildOnly: false,
   memberpermissions: "VIEW_CHANNEL",
-  adminPermOverride: true,
+  adminPermOverride: false,
   cooldown: 15,
   usage: `${config.prefix}${this.name}`,
   async execute(message, args) {
     // declare sent message, or the message by the bot itself
-    message.reply(":gear: *Pieni hetki, info lataa...*").then((sentMessage) => {
+    message.reply(":gear: Odota hetki, info lataa...").then((sentMessage) => {
       // timeout for the message
       setTimeout(() => {
         sentMessage.edit(`
@@ -61,33 +63,42 @@ module.exports = {
           kasvisruoka: ruokaHeaderKasvisruokaText,
         };
 
-        // ! log the menu items
+        const data = new SlashCommandBuilder()
+          .setName("echo")
+          .setDescription("Replies with your input!");
+
+        // ! log the menu items and send as a slash command
+        const ruokaEmbed = new MessageEmbed()
+          .setTitle(`Ruoka tällä viikolla MAYK:issä!`)
+          .setColor("GREEN")
+          .setDescription(`Ruoka mayk.fi/tietoa-meista/ruokailu`)
+          .setTimestamp();
+
         const cc = ruokaHeaderWrappers.map(async (e) => {
-          message.channel.send(
-            // map the menu items
-            `**${await e
+          ruokaEmbed.addFields({
+            name: `${await e
               .findElement({
                 className: "ruoka-header-pvm",
               })
-              .getText()}**:
-              🍽️  ${await e
+              .getText()}`,
+            value: `🍽️  ${await e
+              .findElement({
+                className: "ruoka-header-ruoka",
+              })
+              .getText()}\n🌱  ${(
+              await e
                 .findElement({
-                  className: "ruoka-header-ruoka",
+                  className: "ruoka-header-kasvisruoka",
                 })
-                .getText()}
-              🌱  ${(
-                await e
-                  .findElement({
-                    className: "ruoka-header-kasvisruoka",
-                  })
-                  .getText()
-              ).replace(/\nKasvisruoka/g, "")}
-              `
-          );
+                .getText()
+            ).replace(/\nKasvisruoka/g, "")}`,
+            inline: false,
+          });
         });
 
         const dd = await Promise.all(cc);
         dd;
+        message.channel.send({ embeds: [ruokaEmbed] });
 
         // take a screenshot
         const dateNow = new Date(Date.now())
@@ -103,7 +114,7 @@ module.exports = {
         //   );
         // });
 
-        driver.quit();
+        await driver.quit();
       } catch (e) {
         console.log(e);
       }
@@ -114,7 +125,7 @@ module.exports = {
     // when promise is done, do something
     // promise.then(() => {
     //   // edit client message
-    //   message.edit("Pieni hetki, info lataa...");
+    //   message.edit("Odota hetki, info lataa...");
     // });
   },
 };

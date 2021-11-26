@@ -39,7 +39,7 @@ module.exports = {
   category: "info",
   guildOnly: false,
   memberpermissions: "VIEW_CHANNEL",
-  adminPermOverride: true,
+  adminPermOverride: false,
   cooldown: 2,
   usage: `${config.prefix}${this.name}`,
   async execute(message, args) {
@@ -62,7 +62,7 @@ module.exports = {
       .addFields(
         {
           name: "Tartunnat",
-          value: `**${srcText}** tartuntaa`,
+          value: `**${srcText}** tartuntaa yhteensä`,
           inline: false,
         },
         {
@@ -104,5 +104,7 @@ module.exports = {
       embeds: [covidEmbed],
       components: [covidRow],
     });
+
+    await browser.close();
   },
 };

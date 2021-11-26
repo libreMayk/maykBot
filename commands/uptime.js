@@ -7,7 +7,7 @@ module.exports = {
   category: "util",
   guildOnly: true,
   memberpermissions: "VIEW_CHANNEL",
-  adminPermOverride: true,
+  adminPermOverride: false,
   cooldown: 2,
   usage: `${config.prefix}${this.name}`,
   execute(message, args) {

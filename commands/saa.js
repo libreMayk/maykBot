@@ -6,6 +6,7 @@ const weatherMojis = require("../json/weatherMojis.json");
 const config = require("../config.json");
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
+const puppeteer = require("puppeteer");
 
 module.exports = {
   name: "saa",
@@ -14,11 +15,11 @@ module.exports = {
   category: "info",
   guildOnly: false,
   memberpermissions: "VIEW_CHANNEL",
-  adminPermOverride: true,
+  adminPermOverride: false,
   cooldown: 2,
   usage: `${config.prefix}${this.name}`,
   async execute(message, args, client) {
-    message.reply(":gear: *Pieni hetki, info lataa...*").then((sentMessage) => {
+    message.reply(":gear: Odota hetki, info lataa...").then((sentMessage) => {
       // timeout for the message
       setTimeout(() => {
         sentMessage
@@ -27,12 +28,18 @@ module.exports = {
             // timeout for the message
             setTimeout(() => {
               sentMessage.delete();
-            }, 1000);
+            }, 1500);
           });
       }, 3500);
     });
 
     try {
+      const url =
+        "https://www.ilmatieteenlaitos.fi/local-weather/helsinki/maunula";
+      const browser = await puppeteer.launch();
+      const page = await browser.newPage();
+      await page.goto(url);
+
       const driver = await new Builder()
         .setFirefoxOptions(new Options().headless())
         .forBrowser("firefox")
@@ -45,6 +52,10 @@ module.exports = {
           className: "temp",
         })
         .getText();
+
+      const [weatherValue] = await page.$x("//span[@class='col-7 pl-0']");
+      const weatherSrc = await weatherValue.getProperty("textContent");
+      const weatherText = await weatherSrc.jsonValue();
 
       const tuuli = await driver
         .findElement({
@@ -62,22 +73,20 @@ module.exports = {
       let lat = config.maykLat;
       let lon = config.maykLon;
       let apiKey = config.weatherApiKey;
-      const ilmankosteus = async () =>
-        fetch(
-          `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric.json`,
+      const weatherInfo = async () => {
+        // fetch json from openweathermap and get main.humidity
+        const humidity = await fetch(
+          `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}`,
           {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
             },
           }
-        )
-          .then((response) => {
-            response.json();
-          })
-          .then((data) => {
-            return data;
-          });
+        );
+        const json = await humidity.json();
+        return Math.round(json.main.humidity);
+      };
 
       const weatherEmoji =
         weatherMojis.emojisText[
@@ -96,7 +105,7 @@ module.exports = {
         .addFields(
           {
             name: "Lämpötila",
-            value: `${lampotilaText + "C"}`,
+            value: `${weatherText}`,
             inline: true,
           },
           {
@@ -133,6 +142,7 @@ module.exports = {
       if (!driver.quit()) {
         await driver.quit();
       }
+      await browser.close();
     } catch (error) {
       console.error(error);
       message.reply(":x: **Tapahtui virhe:** Säätietoja ei saatu haettua.");

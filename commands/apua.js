@@ -1,3 +1,4 @@
+const { MessageEmbed, MessageButton } = require("discord.js");
 const config = require("../config.json");
 
 module.exports = {
@@ -7,29 +8,35 @@ module.exports = {
   category: "info",
   guildOnly: false,
   memberpermissions: "VIEW_CHANNEL",
-  adminPermOverride: true,
+  adminPermOverride: false,
   cooldown: 2,
   usage: `${config.prefix}${this.name}`,
-  execute(message, args, command) {
-    if (!args.length) {
-      message.reply(`
-        Kaikki komennot:\n\n${
-          // listaa kaikki komennot
-          message.client.commands
-            // .filter((cmd) => cmd.name !== "help")
-            .map(
-              (cmd) =>
-                `**${cmd.name}${
-                  cmd.aliases ? `, ${cmd.aliases.join(", ")}` : ""
-                }**: ${cmd.description}`
-            )
-            .join("\n")
-        }
-    `);
-    } else if (args[1] === command.name || args[1] === command.aliases) {
-      message.reply(
-        `Name: ${command.name}\nDescription: ${command.description}\nAliases: ${command.aliases}\nCategory: ${command.category}\nCooldown: ${command.cooldown}\nUsage: ${command.usage}`
+  async execute(message, args, command, client) {
+    const helpEmbed = new MessageEmbed()
+      .setColor("BLURPLE")
+      .setAuthor(
+        "mayk.fi",
+        "https://www.mayk.fi/wp-content/uploads/2017/06/favicon.png"
+      )
+      .setTitle("Kaikki komennot")
+      .setDescription("Näyttää kaikki komennot.")
+      .setFooter(
+        "mayk.fi",
+        "https://www.mayk.fi/wp-content/uploads/2017/06/favicon.png"
       );
-    }
+
+    message.client.commands
+      // .filter((cmd) => cmd.name !== "help")
+      .map((cmd) =>
+        helpEmbed.addFields({
+          name: `${cmd.name} | ${cmd.aliases.join(", ")}`,
+          value: `${cmd.description}\n**Odotusaika:** ${cmd.cooldown}s ${
+            cmd.dev ? "\n***DEV-komento***" : ""
+          }`,
+          inline: false,
+        })
+      );
+
+    message.reply({ embeds: [helpEmbed] });
   },
 };
