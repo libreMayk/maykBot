@@ -63,11 +63,7 @@ module.exports = {
           kasvisruoka: ruokaHeaderKasvisruokaText,
         };
 
-        const data = new SlashCommandBuilder()
-          .setName("echo")
-          .setDescription("Replies with your input!");
-
-        // ! log the menu items and send as a slash command
+        // ! log the menu items
         const ruokaEmbed = new MessageEmbed()
           .setTitle(`Ruoka tällä viikolla MAYK:issä!`)
           .setColor("GREEN")

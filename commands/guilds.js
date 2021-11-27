@@ -17,7 +17,7 @@ module.exports = {
       .setColor("BLURPLE")
       .setAuthor(message.guild.name, message.guild.iconURL())
       .setTitle("Palvelimet")
-      .setDescription("Näyttää kaikki palvelimet missä botti on.")
+      .setDescription(`Yhteensä: **${message.client.guilds.cache.size}**`)
       .setTimestamp();
 
     message.client.guilds.cache.map(async (guild) => {

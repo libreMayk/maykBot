@@ -14,6 +14,8 @@ const fs = require("fs");
 const prettySeconds = require("./my-modules/pretty-seconds-suomi");
 const dotenv = require("dotenv").config();
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const fetch = (...args) =>
+  import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 const client = new Discord.Client({
   intents: 32767,
@@ -31,7 +33,7 @@ for (const file of commandFiles) {
 }
 
 const clientId = "911661457249280021";
-const guildId = config.acceptedGuilds[1];
+const guildId = config.acceptedGuilds;
 
 const rest = new REST({ version: "9" }).setToken(config.token);
 
@@ -68,6 +70,22 @@ client.once("ready", () => {
       console.error(error);
     }
   })();
+});
+
+// On User Join
+client.on("guildMemberAdd", (member) => {
+  console.log(`${member.user.username} joined the server!`);
+  try {
+    const channel = member.guild.channels.cache.find((ch) => ch.name === "");
+    if (!channel) {
+      `No such channel in ${member.guild.name}`;
+    }
+    channel.send(
+      `Tervetuloa Maunulan Yhteiskoulun Serveriin, <@${member.user.id}>!`
+    );
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 // On Message
@@ -146,11 +164,49 @@ client.on("messageCreate", (message) => {
     setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
     // Execute command
     try {
-      command.execute(message, args, command, config, client);
+      command.execute(message, args, command, config, client, fetch, config);
     } catch (error) {
       console.error(error);
       message.reply(`:x: **Tapahtui virhe:**\n\`${error}\``);
     }
+  }
+});
+
+// On Interaction
+client.on("interactionCreate", (interaction) => {
+  if (interaction.type === "MESSAGE_REACTION_ADD") {
+    const message = interaction.message;
+    const emoji = interaction.emoji;
+    const user = interaction.user;
+
+    if (user.id === client.user.id) return;
+
+    if (emoji.name === "🔄") {
+      message.channel.messages.fetch(message.id).then((msg) => {
+        msg.reactions.removeAll();
+      });
+    }
+  }
+
+  if (interaction.type === "MESSAGE_REACTION_REMOVE") {
+    const message = interaction.message;
+    const emoji = interaction.emoji;
+    const user = interaction.user;
+
+    if (user.id === client.user.id) return;
+
+    if (emoji.name === "🔄") {
+      message.channel.messages.fetch(message.id).then((msg) => {
+        msg.reactions.removeAll();
+      });
+    }
+  }
+
+  if (interaction.type === "APPLICATION_COMMAND") {
+    const command = interaction.command;
+    const message = interaction.message;
+    const args = interaction.args;
+    const user = interaction.user;
   }
 });
 
