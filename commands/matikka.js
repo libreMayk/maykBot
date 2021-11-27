@@ -11,10 +11,12 @@ module.exports = {
   memberpermissions: "VIEW_CHANNEL",
   adminPermOverride: false,
   cooldown: 2,
-  usage: `${config.prefix}${this.name} <lauseke>`,
+  usage: "",
   execute(message, args) {
     if (args.length < 1) {
-      return message.reply(`**Käytä**: \`${this.usage}\``);
+      return message.reply(
+        `**Käytä**: \`${config.prefix}${this.name} <lauseke>\``
+      );
     }
     try {
       const que = args.join(" ");
