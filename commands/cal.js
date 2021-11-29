@@ -18,33 +18,37 @@ module.exports = {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(url);
-    page.reload();
 
-    // parse html
-    const $ = cheerio.load(html);
-    const events = [];
-    $("div.event").each((i, el) => {
-      const event = {
-        title: $(el).find("h2").text(),
-        date: $(el).find("time").attr("datetime"),
-        link: $(el).find("a").attr("href"),
-      };
-      events.push(event);
-      //   send as fields in embed
-      const calEmbed = new MessageEmbed()
-        .setColor("#0099ff")
-        .setTitle("mayk.fi kalenteri")
-        .setURL(url)
-        .setDescription()
-        .addField(`${event.title}`, `${event.date}`, true)
-        .setFooter(
-          `mayk.fi`,
-          "https://www.mayk.fi/wp-content/uploads/2017/06/favicon.png"
-        )
-        .setTimestamp();
+    const [event] = await page.$x("//div[@class='summary']");
+    const [time] = await page.$x("//abbr[@class='dtstart']");
 
-      message.channel.send({ embeds: [calEmbed] });
+    const eventText = await event.getProperty("textContent");
+    const eventContent = await eventText.jsonValue();
+    const timeText = await time.getProperty("textContent");
+    const timeContent = await timeText.jsonValue();
+
+    //   send as fields in embed
+    const calEmbed = new MessageEmbed()
+      .setColor("#0099ff")
+      .setTitle("mayk.fi kalenteri")
+      .setURL(url)
+      .setDescription(`Kaikki tapahtumat!`)
+      .setFooter(
+        `mayk.fi`,
+        "https://www.mayk.fi/wp-content/uploads/2017/06/favicon.png"
+      )
+      .setTimestamp();
+
+    // for every event, add it to the embed
+    eventText.forEach(async () => {
+      calEmbed.addFields(
+        `${await timeText.jsonValue()}`,
+        `${await eventText.jsonValue()}`,
+        true
+      );
     });
+
+    message.channel.send({ embeds: [calEmbed] });
     await browser.close();
   },
 };

@@ -74,15 +74,64 @@ client.once("ready", () => {
 
 // On User Join
 client.on("guildMemberAdd", (member) => {
-  console.log(`${member.user.username} joined the server!`);
+  // Check if member is in accepted guilds
+  if (!guildId.includes(member.guild.id)) return;
+  else {
+    const welcomeEmbed = new MessageEmbed()
+      .setColor("GREEN")
+      .setAuthor(member.user.tag, member.user.displayAvatarURL())
+      .setTitle("Tervetuloa Maunulan Yhteiskoulun Serveriin!")
+      .setDescription(
+        `Tervetuloa <@${member.user.id}>!\n` +
+          `Lue säännöt ennen kuin lähdet keskusteluun!\n` +
+          `<#913033790778134561>`
+      );
+
+    console.log(`${member.user.username} joined the server!`);
+    try {
+      const channel = member.guild.channels.cache.find(
+        (ch) => ch.name === "tervetuloa"
+      );
+
+      if (!channel) {
+        `No such channel in ${member.guild.name}`;
+      }
+      channel.send({
+        content: `<@${member.user.id}>`,
+        embeds: [welcomeEmbed],
+      });
+
+      member.roles.add(
+        // get role id
+        "913857885035966555"
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
+});
+
+// On User Leave
+client.on("guildMemberRemove", (member) => {
+  const leaveEmbed = new MessageEmbed()
+    .setColor("RED")
+    .setAuthor(member.user.tag, member.user.displayAvatarURL())
+    .setTitle("Poistunut")
+    .setDescription(`<@${member.user.id}> poistui serveriltä.`)
+    .setTimestamp();
+
+  console.log(`${member.user.username} left the server!`);
   try {
-    const channel = member.guild.channels.cache.find((ch) => ch.name === "");
+    const channel = member.guild.channels.cache.find(
+      (ch) => ch.name === "tervetuloa"
+    );
+
     if (!channel) {
       `No such channel in ${member.guild.name}`;
     }
-    channel.send(
-      `Tervetuloa Maunulan Yhteiskoulun Serveriin, <@${member.user.id}>!`
-    );
+    channel.send({
+      embeds: [leaveEmbed],
+    });
   } catch (error) {
     console.log(error);
   }
@@ -121,7 +170,6 @@ client.on("messageCreate", (message) => {
     if (command.usage) {
       reply += `\nOikea komennon käyttö olisi: \`${config.prefix}${command.name} ${command.usage}\``;
     }
-
     return message.channel.send(reply);
   }
 
