@@ -48,7 +48,7 @@ module.exports = {
         message.channel.send({ embeds: [mathEmbed] });
       }
     } catch (err) {
-      message.reply(`Lausekkeesi on virheellinen!`);
+      message.reply(`:x: Lausekkeesi on virheellinen!`);
       message.react("❌");
     }
   },

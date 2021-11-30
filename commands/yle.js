@@ -10,7 +10,7 @@ module.exports = {
   guildOnly: false,
   memberpermissions: "VIEW_CHANNEL",
   adminPermOverride: false,
-  cooldown: 2,
+  cooldown: 0,
   usage: "<usage>",
   async execute(message, args) {
     message.reply(":gear: Odota hetki, info lataa...").then((sentMessage) => {
@@ -81,10 +81,7 @@ module.exports = {
       await browser.close();
     } catch (error) {
       console.log(error);
-      message.channel.send(
-        "Jokin meni pieleen, tarkista komentosarja ja yritä uudelleen!\n",
-        "Error: " + error
-      );
+      message.reply(`:x: **Tapahtui virhe:**\n\`${error}\``);
 
       await browser.close();
     }

@@ -85,12 +85,14 @@ client.on("guildMemberAdd", (member) => {
         `Tervetuloa <@${member.user.id}>!\n` +
           `Lue säännöt ennen kuin lähdet keskusteluun!\n` +
           `<#913033790778134561>`
-      );
+      )
+      .setFooter(`${member.guild.name} | ${member.guild.memberCount} jäsentä`)
+      .setTimestamp();
 
     console.log(`${member.user.username} joined the server!`);
     try {
       const channel = member.guild.channels.cache.find(
-        (ch) => ch.name === "tervetuloa"
+        (ch) => ch.name.includes("tervetuloa") || ch.name.includes("welcome")
       );
 
       if (!channel) {
@@ -102,8 +104,10 @@ client.on("guildMemberAdd", (member) => {
       });
 
       member.roles.add(
-        // get role id
-        "913857885035966555"
+        // find role by name
+        member.guild.roles.cache.find(
+          (role) => role.name.includes("Jäsen") || role.name.includes("Member")
+        )
       );
     } catch (error) {
       console.log(error);
@@ -123,7 +127,7 @@ client.on("guildMemberRemove", (member) => {
   console.log(`${member.user.username} left the server!`);
   try {
     const channel = member.guild.channels.cache.find(
-      (ch) => ch.name === "tervetuloa"
+      (ch) => ch.name.includes("tervetuloa") || ch.name.includes("welcome")
     );
 
     if (!channel) {
@@ -139,7 +143,20 @@ client.on("guildMemberRemove", (member) => {
 
 // On Message
 client.on("messageCreate", (message) => {
-  message.content.toLowerCase();
+  // include commands in lower and upper case
+  message.content = message.content.toLowerCase();
+
+  if (
+    message.content.includes("discord.gg") ||
+    message.content.includes("discordapp.com/invite")
+  ) {
+    message.delete();
+    message.reply(
+      `:x: Ei ole sallittuja linkkejä.\n` + `Komento: ${command.name}`
+    );
+    return;
+  }
+
   if (!message.content.startsWith(config.prefix) || message.author.bot) return;
 
   const args = message.content.slice(config.prefix.length).split(/ +/);
@@ -150,6 +167,17 @@ client.on("messageCreate", (message) => {
     client.commands.find(
       (cmd) => cmd.aliases && cmd.aliases.includes(commandName)
     );
+
+  if (
+    message.content.startsWith(config.prefix) &&
+    message.content.length === config.prefix.length
+  ) {
+    message.reply(`:x: Et ole syöttänyt mitään komentoa!`);
+    return;
+  } else if (message.content.startsWith(config.prefix) && !command) {
+    message.reply(`:x: Komentoa ei ole olemassa. Tarkista kirjoitusasu.`);
+    return;
+  }
 
   // If command exist
   if (!command) return;
@@ -183,12 +211,12 @@ client.on("messageCreate", (message) => {
     command.adminPermOverride === true &&
     !message.member.permissions.has(!Discord.Permissions.FLAGS.ADMINISTRATOR)
   ) {
-    return message.reply(`Sinulla ei ole oikeuksia käyttää tätä komentoa!`);
+    return message.reply(`:x: Sinulla ei ole oikeuksia käyttää tätä komentoa!`);
   }
 
   // Check if dev command
   if (command.dev === true && message.author.id !== config.devId) {
-    return message.reply(`Tämä komento on vain kehittäjille!`);
+    return message.reply(`:x: Tämä komento on vain kehittäjille!`);
   }
 
   const now = Date.now();
