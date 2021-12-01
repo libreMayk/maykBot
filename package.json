@@ -26,6 +26,7 @@
   "homepage": "https://github.com/theZeriax/MaykBot#readme",
   "dependencies": {
     "@discordjs/rest": "^0.1.0-canary.0",
+    "axios": "^0.24.0",
     "cheerio": "^1.0.0-rc.10",
     "colorthief": "^2.3.2",
     "discord-api-types": "^0.24.0",

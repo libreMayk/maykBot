@@ -173,7 +173,7 @@ module.exports = {
                       name: `🏠 Osoite`,
                       value: `${checkAddress()}${
                         element.properties.postalcode
-                      }, ${checkNeighborCity()}${checkRegion()}, ${
+                      }, ${checkNeighborCity()}${checkRegion()}${
                         element.properties.country
                       }`,
                       inline: false,
