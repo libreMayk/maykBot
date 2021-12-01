@@ -7,7 +7,7 @@ const {
   MessageActionRow,
 } = require("discord.js");
 const config = require("./config.json");
-const status = require("./json/status.json");
+const status = require("./test/json/status.json");
 const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord-api-types/v9");
 const fs = require("fs");
