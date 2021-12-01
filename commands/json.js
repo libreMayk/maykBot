@@ -2,10 +2,9 @@ const config = require("../config.json");
 const fs = require("fs");
 
 module.exports = {
-  name: "laksy",
-  // aliases: ["läksy", "läksyt", "laksyt", "homework", "hw"],
+  name: "json",
   aliases: ["json"],
-  description: "läksyt ehkä",
+  description: "json test",
   category: "util",
   guildOnly: true,
   memberpermissions: "VIEW_CHANNEL",

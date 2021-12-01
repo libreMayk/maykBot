@@ -26,6 +26,7 @@
   "homepage": "https://github.com/theZeriax/MaykBot#readme",
   "dependencies": {
     "@discordjs/rest": "^0.1.0-canary.0",
+    "@tensorflow/tfjs": "^3.11.0",
     "axios": "^0.24.0",
     "cheerio": "^1.0.0-rc.10",
     "colorthief": "^2.3.2",
@@ -35,6 +36,7 @@
     "express": "^4.17.1",
     "get-urls": "^10.0.1",
     "google-did-you-mean": "^2.0.0",
+    "googleapis": "^92.0.0",
     "jsdom": "^18.1.1",
     "jsprim": "^2.0.2",
     "mathjs": "^10.0.0",

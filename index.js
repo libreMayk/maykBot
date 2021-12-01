@@ -16,6 +16,7 @@ const dotenv = require("dotenv").config();
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
+const analyzeText = require("./functions/analyzeText");
 
 const client = new Discord.Client({
   intents: 32767,

@@ -37,11 +37,7 @@ module.exports = {
         .setDescription(`HSL - Lähellä koulua olevat pysäkit`)
         .setTimestamp();
 
-      if (
-        !args.length ||
-        // or if the first argument is not one of allArgs
-        !allArgs.includes(args[0].toLowerCase())
-      ) {
+      if (!args.length || !allArgs.includes(args[0].toLowerCase())) {
         fetch(
           "https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql",
           {
@@ -53,7 +49,6 @@ module.exports = {
           }
         ).then((response) => {
           response.json().then((data) => {
-            //   map on embed
             data.data.stopsByRadius.edges.map((element) => {
               if (element.node.stop.routes.length > 0) {
                 const alueMoji = () => {
