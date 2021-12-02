@@ -11,7 +11,7 @@ module.exports = {
   memberpermissions: "VIEW_CHANNEL",
   adminPermOverride: false,
   cooldown: 2,
-  usage: `${config.prefix}${this.name}`,
+  usage: ``,
   async execute(message, args) {
     const maykEmbed = new MessageEmbed()
       .setColor("BLURPLE")

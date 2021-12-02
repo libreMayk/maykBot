@@ -9,9 +9,12 @@ module.exports = {
   memberpermissions: "VIEW_CHANNEL",
   adminPermOverride: false,
   cooldown: 2,
-  usage: `${config.prefix}${this.name}`,
+  usage: ``,
   execute(message, args) {
-    //   uptime command
-    message.reply("Uptime: " + process.uptime().toFixed(0) + "s");
+    message.channel.send(
+      `Käyttöaika: ${Math.floor(
+        (Date.now() - message.client.readyAt) / 1000
+      )} sekuntia`
+    );
   },
 };

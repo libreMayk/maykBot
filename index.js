@@ -197,7 +197,9 @@ client.on("messageCreate", (message) => {
     let reply = `, ${message.author.username}!`;
 
     if (command.usage) {
-      reply += `\nOikea komennon käyttö olisi: \`${config.prefix}${command.name} ${command.usage}\``;
+      reply += `\nOikea komennon käyttö olisi: \`${config.prefix}${
+        (command.usage === "" ? command.name : command.name, command.usage)
+      }\``;
     }
     return message.channel.send(reply);
   }
@@ -239,9 +241,54 @@ client.on("messageCreate", (message) => {
   } else {
     timestamps.set(message.author.id, now);
     setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
-    // Execute command
+
     try {
-      command.execute(message, args, command, config, client, fetch, config);
+      if (args[0] === "--usage" || args[0] === "-u") {
+        if (command.usage) {
+          message.channel.send(
+            `Komennon käyttö: \`${config.prefix}${
+              (command.usage === "" ? command.name : command.name,
+              command.usage)
+            }\``
+          );
+          return;
+        } else {
+          message.channel.send(
+            `Komennon käyttö: \`${config.prefix}${command.name}\``
+          );
+          return;
+        }
+      } else if (
+        args[0] === "--description" ||
+        args[0] === "--desc" ||
+        args[0] === "-d"
+      ) {
+        message.channel.send(
+          `Käyttö: \`${config.prefix}${
+            (command.usage === "" ? command.name : command.name, command.usage)
+          }\`\n\n${command.description}`
+        );
+        return;
+      } else if (args[0] === "--alias" || args[0] === "-a") {
+        if (command.aliases) {
+          message.channel.send(
+            `Käyttö: \`${config.prefix}${command.name} ${
+              command.usage
+            }\`\n\nAliakset: ${command.aliases.join(", ")}`
+          );
+          return;
+        } else {
+          message.channel.send(
+            `Käyttö: \`${config.prefix}${
+              (command.usage === "" ? command.name : command.name,
+              command.usage)
+            }\`\n\nEi aliasia.`
+          );
+          return;
+        }
+      } else {
+        command.execute(message, args, command, config, client, fetch, config);
+      }
     } catch (error) {
       console.error(error);
       message.reply(`:x: **Tapahtui virhe:**\n\`${error}\``);

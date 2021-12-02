@@ -20,7 +20,7 @@ module.exports = {
   memberpermissions: "VIEW_CHANNEL",
   adminPermOverride: false,
   cooldown: 2,
-  usage: `${config.prefix}${this.name}`,
+  usage: ``,
   async execute(message, args) {
     await fetch("https://covid-api.com/api/reports/total?iso=FIN", {
       accept: "application/json",

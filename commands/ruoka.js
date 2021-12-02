@@ -15,7 +15,7 @@ module.exports = {
   memberpermissions: "VIEW_CHANNEL",
   adminPermOverride: false,
   cooldown: 15,
-  usage: `${config.prefix}${this.name}`,
+  usage: `${config.prefix}ruoka`,
   async execute(message, args) {
     // declare sent message, or the message by the bot itself
     message.reply(":gear: Odota hetki, info lataa...").then((sentMessage) => {

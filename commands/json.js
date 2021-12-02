@@ -10,7 +10,7 @@ module.exports = {
   memberpermissions: "VIEW_CHANNEL",
   adminPermOverride: false,
   cooldown: 2,
-  usage: `${config.prefix}${this.name}`,
+  usage: ``,
   execute(message, args) {
     const authorius = message.author;
     fs.writeFile(

@@ -10,7 +10,7 @@ module.exports = {
   adminPermOverride: true,
   dev: true,
   cooldown: 2,
-  usage: "<usage>",
+  usage: "",
   async execute(message, args) {
     // show all guilds where bot is in, map to embed
     const guildEmbed = new MessageEmbed()

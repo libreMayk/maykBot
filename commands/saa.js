@@ -17,7 +17,7 @@ module.exports = {
   memberpermissions: "VIEW_CHANNEL",
   adminPermOverride: false,
   cooldown: 2,
-  usage: `${config.prefix}${this.name}`,
+  usage: ``,
   async execute(message, args, client) {
     message.reply(":gear: Odota hetki, info lataa...").then((sentMessage) => {
       // timeout for the message

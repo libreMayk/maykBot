@@ -11,7 +11,7 @@ module.exports = {
   memberpermissions: "VIEW_CHANNEL",
   adminPermOverride: true,
   cooldown: 2,
-  usage: "<usage>",
+  usage: "",
   async execute(message, args) {
     // get info using puppeteer
     const url = "https://www.mayk.fi/blogi/";
