@@ -12,7 +12,7 @@ module.exports = {
   memberpermissions: "VIEW_CHANNEL",
   adminPermOverride: true,
   cooldown: 0,
-  usage: "",
+  usage: "<hae/apua/> <paikka/kunta/kaupunki>",
   execute(message, args) {
     try {
       const allArgs = [

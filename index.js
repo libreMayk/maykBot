@@ -198,7 +198,7 @@ client.on("messageCreate", (message) => {
 
     if (command.usage) {
       reply += `\nOikea komennon käyttö olisi: \`${config.prefix}${
-        (command.usage === "" ? command.name : command.name, command.usage)
+        command.usage === "" ? command.name : command.name + " " + command.usage
       }\``;
     }
     return message.channel.send(reply);
@@ -247,15 +247,18 @@ client.on("messageCreate", (message) => {
         if (command.usage) {
           message.channel.send(
             `Komennon käyttö: \`${config.prefix}${
-              (command.usage === "" ? command.name : command.name,
-              command.usage)
+              command.usage === ""
+                ? command.name
+                : command.name + " " + command.usage
             }\``
           );
+          command.cooldown = 0;
           return;
         } else {
           message.channel.send(
             `Komennon käyttö: \`${config.prefix}${command.name}\``
           );
+          command.cooldown = 0;
           return;
         }
       } else if (
@@ -265,27 +268,63 @@ client.on("messageCreate", (message) => {
       ) {
         message.channel.send(
           `Käyttö: \`${config.prefix}${
-            (command.usage === "" ? command.name : command.name, command.usage)
-          }\`\n\n${command.description}`
+            command.usage === ""
+              ? command.name
+              : command.name + " " + command.usage
+          }\`\n\nKomennon kuvaus: \`${command.description}\``
         );
+        command.cooldown = 0;
         return;
       } else if (args[0] === "--alias" || args[0] === "-a") {
         if (command.aliases) {
           message.channel.send(
             `Käyttö: \`${config.prefix}${command.name} ${
               command.usage
-            }\`\n\nAliakset: ${command.aliases.join(", ")}`
+            }\`\n\nAliakset: \`${command.aliases.join("`, `")}\``
           );
+          command.cooldown = 0;
           return;
         } else {
           message.channel.send(
             `Käyttö: \`${config.prefix}${
-              (command.usage === "" ? command.name : command.name,
-              command.usage)
+              command.usage === ""
+                ? command.name
+                : command.name + " " + command.usage
             }\`\n\nEi aliasia.`
           );
+          command.cooldown = 0;
           return;
         }
+      } else if (args[0] === "--cooldown" || args[0] === "-c") {
+        message.channel.send(
+          `Käyttö: \`${config.prefix}${
+            command.usage === ""
+              ? command.name
+              : command.name + " " + command.usage
+          }\`\n\nKomennon cooldown on ${command.cooldown} sekuntia.`
+        );
+        command.cooldown = 0;
+        return;
+      } else if (args[0] === "--help" || args[0] === "-h") {
+        message.channel.send(
+          `Käyttö: \`${config.prefix}${
+            command.usage === ""
+              ? command.name
+              : command.name + " " + command.usage
+          }\`\n${
+            command.cooldown === 0
+              ? ""
+              : `\nCooldown: ${command.cooldown} sekuntia.`
+          }\nKäyttö: \`${config.prefix}${command.name} ${
+            command.usage
+          }\`\nAliakset: \`${
+            command.aliases ? command.aliases.join("`, `") : "Ei aliaksia."
+          }\`\nKuvaus: \`${
+            command.description ? command.description : "Ei kuvausta."
+          }\``
+        );
+        command.cooldown = 0;
+        return;
       } else {
         command.execute(message, args, command, config, client, fetch, config);
       }

@@ -1,6 +1,6 @@
 {
   "name": "maykbot",
-  "version": "1.0.0",
+  "version": "0.9.0",
   "description": "Maunulan Yhteiskoulu Botti - ruokaa, uutisia, blogi, sää ja paljon muuta!",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/theZeriax/MaykBot.git"
+    "url": "git+https://github.com/libreMayk/MaykBot.git"
   },
   "keywords": [
     "maykbot",
@@ -17,13 +17,13 @@
     "discord.js",
     "mayk"
   ],
-  "author": "theZeriax",
+  "author": "libreMayk",
   "license": "Apache-2.0",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/theZeriax/MaykBot/issues"
+    "url": "https://github.com/libreMayk/MaykBot/issues"
   },
-  "homepage": "https://github.com/theZeriax/MaykBot#readme",
+  "homepage": "https://github.com/libreMayk/MaykBot#readme",
   "dependencies": {
     "@discordjs/rest": "^0.1.0-canary.0",
     "@tensorflow/tfjs": "^3.11.0",
