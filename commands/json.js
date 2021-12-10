@@ -32,7 +32,7 @@ module.exports = {
     );
 
     message.reply({
-      files: ["./json/nicknames.json"],
+      files: ["./test/json/nicknames.json"],
     });
   },
 };

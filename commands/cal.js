@@ -29,23 +29,29 @@ module.exports = {
 
     //   send as fields in embed
     const calEmbed = new MessageEmbed()
-      .setColor("#0099ff")
-      .setTitle("mayk.fi kalenteri")
+      .setColor("BLURPLE")
+      .setTitle("mayk.fi Kalenteri")
       .setURL(url)
-      .setDescription(`Kaikki tapahtumat!`)
+      .setDescription(`Tulevat tapahtumat!`)
       .setFooter(
         `mayk.fi`,
         "https://www.mayk.fi/wp-content/uploads/2017/06/favicon.png"
       )
       .setTimestamp();
 
-    // for every event, add it to the embed
-    eventText.forEach(async () => {
-      calEmbed.addFields(
-        `${await timeText.jsonValue()}`,
-        `${await eventText.jsonValue()}`,
-        true
-      );
+    // map event and time to embed fields
+    const eventArray = eventContent.split("\n");
+    const timeArray = timeContent.split("\n");
+    const eventTimeArray = eventArray.map((item, index) => {
+      return {
+        event: item,
+        time: timeArray[index],
+      };
+    });
+
+    //   add fields to embed
+    eventTimeArray.forEach((item) => {
+      calEmbed.addField(item.time, item.event);
     });
 
     message.channel.send({ embeds: [calEmbed] });

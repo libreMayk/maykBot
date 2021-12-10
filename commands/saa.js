@@ -7,6 +7,7 @@ const config = require("../config.json");
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
 const puppeteer = require("puppeteer");
+const { createCanvas, loadImage } = require("canvas");
 
 module.exports = {
   name: "saa",
@@ -20,12 +21,10 @@ module.exports = {
   usage: ``,
   async execute(message, args, client) {
     message.reply(":gear: Odota hetki, info lataa...").then((sentMessage) => {
-      // timeout for the message
       setTimeout(() => {
         sentMessage
-          .edit(`:white_check_mark: **Infon lataus on valmis!**`)
+          .edit(`:white_check_mark: **Tiedot on ladattu!**`)
           .then(() => {
-            // timeout for the message
             setTimeout(() => {
               sentMessage.delete();
             }, 1500);
@@ -137,7 +136,46 @@ module.exports = {
             })
         );
 
-      message.channel.send({ embeds: [weatherEmbed] });
+      const canvas = createCanvas(700, 300);
+      const ctx = canvas.getContext("2d");
+
+      // print all the info like on embed
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.font = "30px Arial";
+      ctx.fillStyle = "#000000";
+      ctx.fillText(`${weatherEmoji}  Sää Maunulassa:`, 10, 30);
+      ctx.font = "20px Arial";
+      ctx.fillText(
+        `Sää Maunulassa klo ${new Date().toLocaleString("fi-FI", {
+          hour: "numeric",
+          minute: "numeric",
+        })}`,
+        10,
+        60
+      );
+      ctx.font = "20px Arial";
+      ctx.fillText(`Lämpötila: ${weatherText}`, 10, 90);
+      ctx.font = "20px Arial";
+      ctx.fillText(
+        `Ilmanpaine: ${
+          ilmanpaine.length > 5 ? ilmanpaine.slice(0, 5) : ilmanpaine
+        } hPa`,
+        10,
+        120
+      );
+      ctx.font = "20px Arial";
+      ctx.fillText(`Tuuli: ${tuuli}`, 10, 180);
+
+      message.channel.send({
+        embeds: [weatherEmbed],
+        files: [
+          {
+            attachment: canvas.toBuffer(),
+            name: "weather.png",
+          },
+        ],
+      });
 
       if (!driver.quit()) {
         await driver.quit();

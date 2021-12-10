@@ -11,10 +11,10 @@ module.exports = {
   cooldown: 2,
   usage: ``,
   execute(message, args) {
-    message.channel.send(
-      `Käyttöaika: ${Math.floor(
+    message.channel.send({
+      content: `Käyttöaika: ${Math.floor(
         (Date.now() - message.client.readyAt) / 1000
-      )} sekuntia`
-    );
+      )} sekuntia`,
+    });
   },
 };

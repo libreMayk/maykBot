@@ -14,10 +14,9 @@ module.exports = {
   usage: "",
   async execute(message, args) {
     message.reply(":gear: Odota hetki, info lataa...").then((sentMessage) => {
-      // timeout for the message
       setTimeout(() => {
         sentMessage
-          .edit(`:white_check_mark: **Infon lataus on valmis!**`)
+          .edit(`:white_check_mark: **Tiedot on ladattu!**`)
           .then(() => {
             setTimeout(() => {
               sentMessage.delete();

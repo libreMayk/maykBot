@@ -1,6 +1,10 @@
 const puppeteer = require("puppeteer");
 const colorThief = require("colorthief");
 const { MessageEmbed } = require("discord.js");
+const got = require("got");
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
+const fs = require("fs");
 
 module.exports = {
   name: "blogi",
@@ -13,51 +17,70 @@ module.exports = {
   cooldown: 2,
   usage: "",
   async execute(message, args) {
-    // get info using puppeteer
     const url = "https://www.mayk.fi/blogi/";
 
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    await page.goto(url);
-
-    const [title] = await page.$x("//a[@rel='bookmark']");
-    const [desc] = await page.$x(
-      "//div[@class='w-grid-item-elm usg_post_content_1  post_content']"
-    );
-    const [time] = await page.$x(
-      "//time[@class='w-grid-item-elm usg_post_date_1  post_date entry-date published']"
-    );
-    const [img] = await page.$x(
-      "//img[@class='attachment-us_600_400_crop size-us_600_400_crop wp-post-image']"
-    );
-
-    const titleNew = await title.getProperty("textContent");
-    const descNew = await desc.getProperty("textContent");
-    const timeNew = await time.getProperty("textContent");
-    const imageNew = await img.getProperty("src");
-    const linkNew = await title.getProperty("href");
-
-    colorThief.getColor(`${await imageNew.jsonValue()}`).then(async (color) => {
-      const imageColorHex =
-        "#" + color.map((c) => Number(c).toString(16)).join("");
-
-      console.log(imageColorHex);
-
-      const newsEmbed = new MessageEmbed()
-        .setColor(`${imageColorHex}`)
-        .setTitle(`${await titleNew.jsonValue()}`)
-        .setURL(`${await linkNew.jsonValue()}`)
-        .setDescription(`${await descNew.jsonValue()}`)
-        .setAuthor(
-          `mayk.fi`,
-          "https://www.mayk.fi/wp-content/uploads/2017/06/favicon.png"
-        )
-        .setImage(`${await imageNew.jsonValue()}`)
-        .setFooter(`${await timeNew.jsonValue()}`);
-
-      message.channel.send({ embeds: [newsEmbed] });
+    message.reply(":gear: Odota hetki, info lataa...").then((sentMessage) => {
+      setTimeout(() => {
+        sentMessage
+          .edit(`:white_check_mark: **Tiedot on ladattu!**`)
+          .then(() => {
+            setTimeout(() => {
+              sentMessage.delete();
+            }, 1500);
+          });
+      }, 1500);
     });
 
-    await browser.close();
+    got(url)
+      .then((response) => {
+        const dom = new JSDOM(response.body);
+        const document = dom.window.document;
+
+        const title = document.querySelector(
+          "h2.w-grid-item-elm.usg_post_title_1.color_link_inherit.post_title.entry-title"
+        ).textContent;
+
+        const link = document
+          .querySelector(
+            "h2.w-grid-item-elm.usg_post_title_1.color_link_inherit.post_title.entry-title a"
+          )
+          .getAttribute("href");
+
+        const desc = document.querySelector(
+          "div.w-grid-item-elm.usg_post_content_1.post_content"
+        ).textContent;
+
+        const time = document.querySelector(
+          "time.w-grid-item-elm.usg_post_date_1.post_date.entry-date.published"
+        ).textContent;
+
+        const img = document
+          .querySelector(
+            "img.attachment-us_600_400_crop.size-us_600_400_crop.wp-post-image"
+          )
+          .getAttribute("src");
+
+        colorThief.getColor(`${img}`).then(async (color) => {
+          const imageColorHex =
+            "#" + color.map((c) => Number(c).toString(16)).join("");
+
+          const newsEmbed = new MessageEmbed()
+            .setColor(`${imageColorHex}`)
+            .setTitle(`${title}`)
+            .setURL(`${link}`)
+            .setAuthor(
+              "mayk.fi",
+              "https://www.mayk.fi/wp-content/uploads/2017/06/favicon.png"
+            )
+            .setDescription(`${desc}`)
+            .setImage(`${img}`)
+            .setFooter(`${time}`);
+
+          message.channel.send({ embeds: [newsEmbed] });
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
 };

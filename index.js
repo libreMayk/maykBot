@@ -12,11 +12,11 @@ const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord-api-types/v9");
 const fs = require("fs");
 const prettySeconds = require("./my-modules/pretty-seconds-suomi");
+const colors = require("colors");
 const dotenv = require("dotenv").config();
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
-const analyzeText = require("./functions/analyzeText");
 
 const client = new Discord.Client({
   intents: 32767,
@@ -27,7 +27,8 @@ client.commands = new Discord.Collection();
 // Take commands
 const commandFiles = fs
   .readdirSync("./commands")
-  .filter((file) => file.endsWith(".js"));
+  .filter((file) => file.endsWith(".js") || file.endsWith(".ts"));
+
 for (const file of commandFiles) {
   const command = require(`./commands/` + file);
   client.commands.set(command.name, command);
@@ -53,7 +54,7 @@ const maykStatus = setInterval(() => {
 
 // On Ready
 client.once("ready", () => {
-  console.log(`${client.user.username} is ready!`);
+  console.log(`${client.user.username}`.rainbow + ` is ready!`);
   //   set custom status
   client.user.setStatus("idle");
   maykStatus;
@@ -336,7 +337,7 @@ client.on("messageCreate", (message) => {
 });
 
 // On Interaction
-client.on("interactionCreate", (interaction) => {
+client.on("interactionCreate", async (interaction) => {
   if (interaction.type === "MESSAGE_REACTION_ADD") {
     const message = interaction.message;
     const emoji = interaction.emoji;
@@ -366,10 +367,10 @@ client.on("interactionCreate", (interaction) => {
   }
 
   if (interaction.type === "APPLICATION_COMMAND") {
-    const command = interaction.command;
     const message = interaction.message;
     const args = interaction.args;
     const user = interaction.user;
+    interaction.reply(interaction.token);
   }
 });
 
