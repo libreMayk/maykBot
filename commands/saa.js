@@ -183,7 +183,7 @@ module.exports = {
       await browser.close();
     } catch (error) {
       console.error(error);
-      message.reply(":x: **Tapahtui virhe:** Säätietoja ei saatu haettua.");
+      message.reply(`:x: **Tapahtui virhe:**\n\`${error}\``);
     }
   },
 };

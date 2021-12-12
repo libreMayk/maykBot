@@ -1,4 +1,3 @@
-// Discord Bot for Maunulan yhteiskoulu
 const Discord = require("discord.js");
 const {
   Client,
@@ -24,7 +23,6 @@ const client = new Discord.Client({
 });
 client.commands = new Discord.Collection();
 
-// Take commands
 const commandFiles = fs
   .readdirSync("./commands")
   .filter((file) => file.endsWith(".js") || file.endsWith(".ts"));
@@ -39,7 +37,6 @@ const guildId = config.acceptedGuilds;
 
 const rest = new REST({ version: "9" }).setToken(config.token);
 
-// Cooldowns
 const cooldowns = new Discord.Collection();
 
 const maykStatus = setInterval(() => {
@@ -52,10 +49,9 @@ const maykStatus = setInterval(() => {
   );
 }, 5000);
 
-// On Ready
 client.once("ready", () => {
   console.log(`${client.user.username}`.rainbow + ` is ready!`);
-  //   set custom status
+
   client.user.setStatus("idle");
   maykStatus;
 
@@ -70,13 +66,12 @@ client.once("ready", () => {
       console.log("Successfully reloaded application (/) commands.");
     } catch (error) {
       console.error(error);
+      message.reply(`:x: **Tapahtui virhe:**\n\`${error}\``);
     }
   })();
 });
 
-// On User Join
 client.on("guildMemberAdd", (member) => {
-  // Check if member is in accepted guilds
   if (!guildId.includes(member.guild.id)) return;
   else {
     const welcomeEmbed = new MessageEmbed()
@@ -106,7 +101,6 @@ client.on("guildMemberAdd", (member) => {
       });
 
       member.roles.add(
-        // find role by name
         member.guild.roles.cache.find(
           (role) => role.name.includes("Jäsen") || role.name.includes("Member")
         )
@@ -117,7 +111,6 @@ client.on("guildMemberAdd", (member) => {
   }
 });
 
-// On User Leave
 client.on("guildMemberRemove", (member) => {
   const leaveEmbed = new MessageEmbed()
     .setColor("RED")
@@ -143,9 +136,7 @@ client.on("guildMemberRemove", (member) => {
   }
 });
 
-// On Message
 client.on("messageCreate", (message) => {
-  // include commands in lower and upper case
   message.content = message.content.toLowerCase();
 
   if (
@@ -181,10 +172,8 @@ client.on("messageCreate", (message) => {
     return;
   }
 
-  // If command exist
   if (!command) return;
 
-  // Check if command can be executed in DM
   if (
     command.guildOnly &&
     message.channel.type !== "text" &&
@@ -193,7 +182,6 @@ client.on("messageCreate", (message) => {
     return message.reply("Et voi käyttää tämän komennon YVssä!");
   }
 
-  // Check if args are required
   if (command.args && !args.length) {
     let reply = `, ${message.author.username}!`;
 
@@ -205,12 +193,10 @@ client.on("messageCreate", (message) => {
     return message.channel.send(reply);
   }
 
-  // Check if user is in cooldown
   if (!cooldowns.has(command.name)) {
     cooldowns.set(command.name, new Discord.Collection());
   }
 
-  // Check if user has permission
   if (
     command.adminPermOverride === true &&
     !message.member.permissions.has(!Discord.Permissions.FLAGS.ADMINISTRATOR)
@@ -218,7 +204,6 @@ client.on("messageCreate", (message) => {
     return message.reply(`:x: Sinulla ei ole oikeuksia käyttää tätä komentoa!`);
   }
 
-  // Check if dev command
   if (command.dev === true && message.author.id !== config.devId) {
     return message.reply(`:x: Tämä komento on vain kehittäjille!`);
   }
@@ -231,7 +216,6 @@ client.on("messageCreate", (message) => {
     const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
 
     if (now < expirationTime) {
-      // If user is in cooldown
       const timeLeft = (expirationTime - now) / 1000;
       return message.reply(
         `Odota vielä ${
@@ -336,7 +320,6 @@ client.on("messageCreate", (message) => {
   }
 });
 
-// On Interaction
 client.on("interactionCreate", async (interaction) => {
   if (interaction.type === "MESSAGE_REACTION_ADD") {
     const message = interaction.message;

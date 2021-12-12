@@ -1,6 +1,8 @@
 const puppeteer = require("puppeteer");
-const cheerio = require("cheerio");
 const { MessageEmbed } = require("discord.js");
+const got = require("got");
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
 
 module.exports = {
   name: "cal",
@@ -13,24 +15,11 @@ module.exports = {
   cooldown: 2,
   usage: "",
   async execute(message, args) {
-    // get info using puppeteer
     const url = "https://www.mayk.fi/kalenteri/";
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    await page.goto(url);
 
-    const [event] = await page.$x("//div[@class='summary']");
-    const [time] = await page.$x("//abbr[@class='dtstart']");
-
-    const eventText = await event.getProperty("textContent");
-    const eventContent = await eventText.jsonValue();
-    const timeText = await time.getProperty("textContent");
-    const timeContent = await timeText.jsonValue();
-
-    //   send as fields in embed
     const calEmbed = new MessageEmbed()
       .setColor("BLURPLE")
-      .setTitle("mayk.fi Kalenteri")
+      .setTitle("📆 mayk.fi Kalenteri")
       .setURL(url)
       .setDescription(`Tulevat tapahtumat!`)
       .setFooter(
@@ -39,22 +28,47 @@ module.exports = {
       )
       .setTimestamp();
 
-    // map event and time to embed fields
-    const eventArray = eventContent.split("\n");
-    const timeArray = timeContent.split("\n");
-    const eventTimeArray = eventArray.map((item, index) => {
-      return {
-        event: item,
-        time: timeArray[index],
-      };
-    });
+    const dom = new JSDOM();
+    const document = dom.window.document;
 
-    //   add fields to embed
-    eventTimeArray.forEach((item) => {
-      calEmbed.addField(item.time, item.event);
-    });
+    message.reply(":gear: Odota hetki, info lataa...").then((sentMessage) => {
+      got(url).then((response) => {
+        document.body.innerHTML = response.body;
+        const event = document.querySelectorAll("div.summary");
+        const time = document.querySelectorAll("abbr.dtstart");
 
-    message.channel.send({ embeds: [calEmbed] });
-    await browser.close();
+        const eventArray = Array.from(event).map((item) => {
+          return item.textContent;
+        });
+        const timeArray = Array.from(time).map((item) => {
+          return item.textContent;
+        });
+
+        const eventTimeArray = eventArray.map((item, index) => {
+          return {
+            event: item,
+            time: timeArray[index],
+          };
+        });
+
+        for (let i = 0; i < 5; i++) {
+          calEmbed.addField(
+            `${eventTimeArray[i].time}`,
+            `${eventTimeArray[i].event}`,
+            false
+          );
+        }
+
+        message.channel.send({ embeds: [calEmbed] });
+
+        sentMessage
+          .edit(`:white_check_mark: **Tiedot on ladattu!**`)
+          .then(() => {
+            setTimeout(() => {
+              sentMessage.delete();
+            }, 3000);
+          });
+      });
+    });
   },
 };

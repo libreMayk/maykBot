@@ -1,5 +1,8 @@
 const { MessageEmbed } = require("discord.js");
 const config = require("../config.json");
+const got = require("got");
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
 
 module.exports = {
   name: "mayk",
@@ -13,15 +16,14 @@ module.exports = {
   cooldown: 2,
   usage: ``,
   async execute(message, args) {
+    const dom = new JSDOM();
+    const document = dom.window.document;
+
     const maykEmbed = new MessageEmbed()
       .setColor("BLURPLE")
       .setTitle("MAYK - Maunulan-Yhteiskoulu")
       .setURL("https://mayk.fi")
-      .setAuthor(
-        "Maunulan-Yhteiskoulu",
-        // display bot avatar
-        message.client.user.displayAvatarURL()
-      )
+      .setAuthor("Maunulan-Yhteiskoulu", message.client.user.displayAvatarURL())
       .setDescription(
         "Tästä löytyy kaikkia infoa lyhyesti: milloin koulu alkaa, sää, HSL-info ja muuta."
       )
@@ -37,7 +39,7 @@ module.exports = {
           value: `Sää Maunulassa klo ${new Date().toLocaleString("fi-FI", {
             hour: "numeric",
             minute: "numeric",
-          })}: sää`,
+          })}: ${undefined}`,
           inline: true,
         },
         {

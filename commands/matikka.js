@@ -31,7 +31,6 @@ module.exports = {
         message.react("❌");
         return;
       } else {
-        //  Create a new Discord.MessageEmbed()
         const mathEmbed = new MessageEmbed()
           .setColor("#546e7a")
           .setTitle("Matikka")

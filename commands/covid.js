@@ -43,7 +43,7 @@ module.exports = {
                 data.data.confirmed > 0 ? data.data.confirmed : "0"
               }** tartuntaa yhteensä\n**${
                 data.data.confirmed_diff > 0 ? data.data.confirmed_diff : "0"
-              }** tartuntaa eilen`,
+              }** tartuntaa viimeisen 2 päivän aikana`,
               inline: true,
             },
             {
