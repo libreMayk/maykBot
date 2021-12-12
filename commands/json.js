@@ -14,7 +14,7 @@ module.exports = {
   execute(message, args) {
     const authorius = message.author;
     fs.writeFile(
-      "./json/nicknames.json",
+      "./test/json/nicknames.json",
       JSON.stringify(
         {
           users: {
