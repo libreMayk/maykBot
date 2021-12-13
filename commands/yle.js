@@ -66,7 +66,7 @@ module.exports = {
             message.channel.send({ embeds: [newsEmbed] });
 
             sentMessage
-              .edit(`:white_check_mark: **Tiedot on ladattu!**`)
+              .edit(`:white_check_mark: **Data on ladattu!**`)
               .then(() => {
                 setTimeout(() => {
                   sentMessage.delete();

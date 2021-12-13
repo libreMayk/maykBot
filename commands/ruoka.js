@@ -28,7 +28,7 @@ module.exports = {
         .setDescription(`Ruoka tällä viikolla MAYK:issä!`)
         .setTimestamp();
 
-      let canvas = createCanvas(500, 150);
+      let canvas = createCanvas();
       let ctx = canvas.getContext("2d");
 
       ctx.fillStyle = "rgba(255, 255, 255, 0)";
@@ -102,12 +102,25 @@ module.exports = {
               : dateTodayNumConverted() - 1
           ].querySelector(".ruoka-header-kasvisruoka").textContent;
 
-          if (ruokaPvmText === dateTodayLong) {
+          const whichIsLonger = () => {
+            if (ruokaText.length > kasvisruokaText.length) {
+              return ruokaText;
+            } else {
+              return kasvisruokaText;
+            }
+          };
+
+          if (
+            ruokaPvmText.toLowerCase().includes(dateTodayLong.toLowerCase())
+          ) {
+            canvas.width = whichIsLonger().length * 10;
+            canvas.height = 150;
+
             ctx.fillStyle = "rgba(255, 255, 255, 0)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.fillStyle = "#f7f7f7";
             ctx.font = "bold 40px Consolas";
-            ctx.fillText("Ruoka tänään:", 10, 45);
+            ctx.fillText("Ruoka tänään:", 10, 40);
             ctx.font = "25px Consolas";
 
             ctx.font = "bold 25px Consolas";
@@ -153,7 +166,7 @@ module.exports = {
             ruokaEmbed.addFields({
               name: `${
                 ruokaPvm.toLowerCase().replace(/\s+/g, "") === dateTodayLong
-                  ? "> "
+                  ? "🔅 "
                   : ""
               }${ruokaPvm.replace(/\s+/g, "")}`,
               value: `🍽️  ${

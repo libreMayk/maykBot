@@ -25,6 +25,11 @@ module.exports = {
         "help",
         "auta",
         "?",
+        "rt",
+        "realtime",
+        "real-time",
+        "reaaliaika",
+        "reaaliaikainen",
       ];
 
       const hslEmbed = new MessageEmbed()
@@ -45,7 +50,7 @@ module.exports = {
             headers: {
               "Content-Type": "application/json",
             },
-            body: `{\"query\":\"{\\n  stopsByRadius(lat: ${config.maykLat}, lon: ${config.maykLon}, radius: 500) {\\n    edges {\\n      node {\\n        stop {\\n          name\\n          code\\n          gtfsId\\n          zoneId\\n          vehicleMode\\n          routes {\\n            shortName\\n          url\\n          }\\n        }\\n        distance\\n      }\\n    }\\n  }\\n}\\n\"}`,
+            body: `{\"query\":\"{\\n  stopsByRadius(lat: ${config.maykLat}, lon: ${config.maykLon}, radius: 500) {\\n    edges {\\n      node {\\n        stop {\\n          name\\n          code\\n          gtfsId\\n          zoneId\\n          vehicleMode\\n          routes {\\n            shortName\\n            url\\n          }\\n        }\\n        distance\\n      }\\n    }\\n  }\\n}\"}`,
           }
         ).then((response) => {
           response.json().then((data) => {
@@ -91,6 +96,97 @@ module.exports = {
           `Käytä: \n\`${config.prefix}hsl\`\n\`${config.prefix}hsl hae <paikka>\``
         );
         message.channel.send({ embeds: [hslEmbed] });
+      } else if (
+        args[0] === "rt" ||
+        args[0] === "realtime" ||
+        args[0] === "real-time" ||
+        args[0] === "reaaliaika" ||
+        args[0] === "reaaliaikainen"
+      ) {
+        fetch(
+          "https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: `{\"query\":\"{\\n\\tnearest(\\n\\t\\tlat: ${config.maykLat}\\n\\t\\tlon: ${config.maykLon}\\n\\t\\tmaxDistance: 500\\n\\t\\tfilterByPlaceTypes: DEPARTURE_ROW\\n\\t) {\\n\\t\\tedges {\\n\\t\\t\\tnode {\\n\\t\\t\\t\\tplace {\\n\\t\\t\\t\\t\\t... on DepartureRow {\\n\\t\\t\\t\\t\\t\\tstop {\\n\\t\\t\\t\\t\\t\\t\\tname\\n\\t\\t\\t\\t\\t\\t\\tcode\\n\\t\\t\\t\\t\\t\\t\\tzoneId\\n\\t\\t\\t\\t\\t\\t}\\n\\t\\t\\t\\t\\t\\tstoptimes {\\n\\t\\t\\t\\t\\t\\t\\trealtimeArrival\\n\\t\\t\\t\\t\\t\\t  departureDelay\\n\\t\\t\\t\\t\\t\\t\\ttrip {\\n\\t\\t\\t\\t\\t\\t\\t\\troute {\\n\\t\\t\\t\\t\\t\\t\\t\\t\\tshortName\\n\\t\\t\\t\\t\\t\\t\\t\\t\\tlongName\\n\\t\\t\\t\\t\\t\\t\\t\\t}\\n\\t\\t\\t\\t\\t\\t\\t}\\n\\t\\t\\t\\t\\t\\t\\theadsign\\n\\t\\t\\t\\t\\t\\t}\\n\\t\\t\\t\\t\\t}\\n\\t\\t\\t\\t}\\n\\t\\t\\t}\\n\\t\\t}\\n\\t}\\n}\\n\"}`,
+          }
+        ).then((response) => {
+          response.json().then((data) => {
+            const realtimeEmbed = new MessageEmbed()
+              .setColor("#007ac9")
+              .setAuthor("digitransit.fi")
+              .setThumbnail(
+                "https://yt3.ggpht.com/a-/AAuE7mCZV-1Cc1Jfi0aIvOfKcvA3_jOS-OG3YHLRLg=s900-mo-c-c0xffffffff-rj-k-no"
+              )
+              .setTitle(
+                "<:hslLogo:914091968785711134>  Helsingin Seudun Liikenne"
+              )
+              .setDescription(
+                `HSL - Lähellä koulua olevat bussit ja linjat\n\n**Huom!** Tämä komento on vielä vain testausta varten, ja ei ole vielä toteutettu käyttöön, joten voi olla jotain vikaa.`
+              )
+              .setTimestamp();
+
+            data.data.nearest.edges.map((element) => {
+              const alueMoji = () => {
+                return `:regional_indicator_${element.node.place.stop.zoneId.toLowerCase()}:`;
+              };
+
+              const place = element.node.place;
+
+              function toTime(time) {
+                var hours = Math.floor(time / (60 * 60));
+                time = time - hours * 60 * 60;
+                var minutes = Math.floor(time / 60);
+
+                if (hours > 24) {
+                  hours = hours - 24;
+                }
+                if (hours === 0) {
+                  hours = "00";
+                }
+                if (minutes < 10) {
+                  minutes = "0" + minutes;
+                }
+                if (hours < 10) {
+                  hours = "0" + hours;
+                }
+
+                return hours + ":" + minutes;
+              }
+
+              realtimeEmbed.addFields({
+                name: `🚏 ${place.stop.name} (${place.stop.code})`,
+                value: `${alueMoji()} **Alue:** ${
+                  place.stop.zoneId ? place.stop.zoneId : "Ei aluetta"
+                }\n🗺️ **Reitti:** ${place.stoptimes.map((stoptimes) => {
+                  return stoptimes
+                    ? stoptimes.trip.route.shortName
+                    : "Ei reittiä";
+                })} (${place.stoptimes.map((stoptimes) => {
+                  return stoptimes
+                    ? stoptimes.trip.route.longName
+                    : "Ei reittiä";
+                })})\n🚌 **Bussi:** ${place.stoptimes.map((stoptimes) => {
+                  return stoptimes ? stoptimes.headsign : "Ei bussia";
+                })}\n🛬 **Saapumisaika:** ${place.stoptimes.map((stoptimes) => {
+                  return stoptimes
+                    ? toTime(stoptimes.realtimeArrival)
+                    : "Ei saapumisaikaa";
+                })}\n⌛ **Lähdön viivästys:** ${place.stoptimes.map(
+                  (stoptimes) => {
+                    return stoptimes
+                      ? toTime(stoptimes.departureDelay) + " min"
+                      : "Ei viivästysaikaa";
+                  }
+                )}`,
+                inline: false,
+              });
+            });
+            message.channel.send({ embeds: [realtimeEmbed] });
+          });
+        });
       } else if (
         args[0] === "search" ||
         args[0] === "find" ||

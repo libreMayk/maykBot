@@ -13,20 +13,9 @@ module.exports = {
   memberpermissions: "VIEW_CHANNEL",
   adminPermOverride: false,
   cooldown: 2,
-  usage: "",
+  usage: "<määrä>",
   async execute(message, args) {
     const url = "https://www.mayk.fi/kalenteri/";
-
-    const calEmbed = new MessageEmbed()
-      .setColor("BLURPLE")
-      .setTitle("📆 mayk.fi Kalenteri")
-      .setURL(url)
-      .setDescription(`Tulevat tapahtumat!`)
-      .setFooter(
-        `mayk.fi`,
-        "https://www.mayk.fi/wp-content/uploads/2017/06/favicon.png"
-      )
-      .setTimestamp();
 
     const dom = new JSDOM();
     const document = dom.window.document;
@@ -51,7 +40,36 @@ module.exports = {
           };
         });
 
-        for (let i = 0; i < 5; i++) {
+        const amountArgs = () => {
+          if (!args[0]) {
+            return 5;
+          } else {
+            if (isNaN(args[0])) {
+              return 5;
+            } else {
+              if (args[0] > 15) {
+                return 15;
+              } else if (args[0] < 3) {
+                return 3;
+              } else {
+                return Math.round(args[0]);
+              }
+            }
+          }
+        };
+
+        const calEmbed = new MessageEmbed()
+          .setColor("BLURPLE")
+          .setTitle("📆 mayk.fi Kalenteri")
+          .setURL(url)
+          .setDescription(`**${amountArgs()}** tapahtumaa`)
+          .setFooter(
+            `mayk.fi`,
+            "https://www.mayk.fi/wp-content/uploads/2017/06/favicon.png"
+          )
+          .setTimestamp();
+
+        for (let i = 0; i < amountArgs(); i++) {
           calEmbed.addField(
             `${eventTimeArray[i].time}`,
             `${eventTimeArray[i].event}`,
@@ -61,13 +79,11 @@ module.exports = {
 
         message.channel.send({ embeds: [calEmbed] });
 
-        sentMessage
-          .edit(`:white_check_mark: **Tiedot on ladattu!**`)
-          .then(() => {
-            setTimeout(() => {
-              sentMessage.delete();
-            }, 3000);
-          });
+        sentMessage.edit(`:white_check_mark: **Data on ladattu!**`).then(() => {
+          setTimeout(() => {
+            sentMessage.delete();
+          }, 3000);
+        });
       });
     });
   },
