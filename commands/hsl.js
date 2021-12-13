@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, MessageAttachment } = require("discord.js");
 const config = require("../config.json");
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
@@ -35,9 +35,7 @@ module.exports = {
       const hslEmbed = new MessageEmbed()
         .setColor("#007ac9")
         .setAuthor("digitransit.fi")
-        .setThumbnail(
-          "https://yt3.ggpht.com/a-/AAuE7mCZV-1Cc1Jfi0aIvOfKcvA3_jOS-OG3YHLRLg=s900-mo-c-c0xffffffff-rj-k-no"
-        )
+        .setThumbnail("https://cdn.digitransit.fi/developers/logos/hsl.png")
         .setTitle("<:hslLogo:914091968785711134>  Helsingin Seudun Liikenne")
         .setDescription(`HSL - Lähellä koulua olevat pysäkit`)
         .setTimestamp();
@@ -118,13 +116,13 @@ module.exports = {
               .setColor("#007ac9")
               .setAuthor("digitransit.fi")
               .setThumbnail(
-                "https://yt3.ggpht.com/a-/AAuE7mCZV-1Cc1Jfi0aIvOfKcvA3_jOS-OG3YHLRLg=s900-mo-c-c0xffffffff-rj-k-no"
+                "https://cdn.digitransit.fi/developers/logos/hsl.png"
               )
               .setTitle(
                 "<:hslLogo:914091968785711134>  Helsingin Seudun Liikenne"
               )
               .setDescription(
-                `HSL - Lähellä koulua olevat bussit ja linjat\n\n**Huom!** Tämä komento on vielä vain testausta varten, ja ei ole vielä toteutettu käyttöön, joten voi olla jotain vikaa.`
+                `HSL - Lähellä koulua olevat bussit ja linjat\n\n**Huom!** Tämä komento on vielä vain testausta varten, ja ei ole vielä toteutettu käyttöön, joten jotain voi mennä pieleen.`
               )
               .setTimestamp();
 
@@ -177,7 +175,7 @@ module.exports = {
                 })}\n⌛ **Lähdön viivästys:** ${place.stoptimes.map(
                   (stoptimes) => {
                     return stoptimes
-                      ? toTime(stoptimes.departureDelay) + " min"
+                      ? stoptimes.departureDelay / 60 + " min"
                       : "Ei viivästysaikaa";
                   }
                 )}`,
@@ -249,7 +247,7 @@ module.exports = {
                   .setColor("#007ac9")
                   .setAuthor("digitransit.fi")
                   .setThumbnail(
-                    "https://yt3.ggpht.com/a-/AAuE7mCZV-1Cc1Jfi0aIvOfKcvA3_jOS-OG3YHLRLg=s900-mo-c-c0xffffffff-rj-k-no"
+                    "https://cdn.digitransit.fi/developers/logos/hsl.png"
                   )
                   .setTitle(
                     `<:hslLogo:914091968785711134> Helsingin Seudun Liikenne`
