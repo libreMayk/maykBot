@@ -1,5 +1,4 @@
 const { MessageEmbed } = require("discord.js");
-const puppeteer = require("puppeteer");
 const colorThief = require("colorthief");
 const got = require("got");
 const jsdom = require("jsdom");

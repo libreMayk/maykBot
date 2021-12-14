@@ -1,16 +1,8 @@
-const { Builder } = require("selenium-webdriver");
-const { Options } = require("selenium-webdriver/firefox");
 const { MessageEmbed, MessageAttachment } = require("discord.js");
-const fs = require("fs");
-const weatherMojis = require("../test/json/weatherMojis.json");
 const config = require("../config.json");
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
-const puppeteer = require("puppeteer");
-const { createCanvas, loadImage } = require("canvas");
-const got = require("got");
-const jsdom = require("jsdom");
-const { JSDOM } = jsdom;
+const { createCanvas } = require("canvas");
 
 module.exports = {
   name: "saa",

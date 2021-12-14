@@ -1,14 +1,9 @@
 // const getFood = require("../scripts/getFood");
-const { Builder } = require("selenium-webdriver");
-const { Options } = require("selenium-webdriver/firefox");
-const fs = require("fs");
-const config = require("../config.json");
 const { MessageEmbed, MessageAttachment } = require("discord.js");
-const { createCanvas, loadImage } = require("canvas");
+const { createCanvas } = require("canvas");
 const got = require("got");
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
-const twemoji = require("twemoji");
 
 module.exports = {
   name: "ruoka",

@@ -1,10 +1,8 @@
-const puppeteer = require("puppeteer");
 const colorThief = require("colorthief");
 const { MessageEmbed } = require("discord.js");
 const got = require("got");
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
-const fs = require("fs");
 
 module.exports = {
   name: "blogi",

@@ -1,4 +1,3 @@
-const puppeteer = require("puppeteer");
 const { MessageEmbed } = require("discord.js");
 const got = require("got");
 const jsdom = require("jsdom");

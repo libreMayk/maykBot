@@ -11,7 +11,6 @@ const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord-api-types/v9");
 const fs = require("fs");
 const prettySeconds = require("./my-modules/pretty-seconds-suomi");
-const colors = require("colors");
 const dotenv = require("dotenv").config();
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const fetch = (...args) =>
