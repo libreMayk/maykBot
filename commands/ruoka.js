@@ -84,11 +84,7 @@ module.exports = {
           };
 
           const ruokaPvmText =
-            ruokaMenu[
-              dateTodayNumConverted() - 1 === 6 || 7
-                ? 0
-                : dateTodayNumConverted() - 1
-            ].querySelector(".ruoka-header-pvm").textContent;
+            ruokaMenu[dateTodayNumConverted() - 1].textContent;
 
           const ruokaText = ruokaMenu[
             dateTodayNumConverted() - 1 === 6 || 7
@@ -110,9 +106,7 @@ module.exports = {
             }
           };
 
-          if (
-            ruokaPvmText.toLowerCase().includes(dateTodayLong.toLowerCase())
-          ) {
+          if (ruokaPvmText.toLocaleLowerCase().includes(dateTodayLong)) {
             canvas.width = whichIsLonger().length * 10;
             canvas.height = 150;
 
@@ -125,7 +119,10 @@ module.exports = {
 
             ctx.font = "bold 25px Consolas";
             ctx.fillText(
-              `${ruokaPvmText.replace(/\s+/g, "")} ${dateToday}`,
+              `${
+                // first letter uppercase
+                dateTodayLong.charAt(0).toUpperCase() + dateTodayLong.slice(1)
+              } ${dateToday}`,
               10,
               80
             );
@@ -166,7 +163,7 @@ module.exports = {
             ruokaEmbed.addFields({
               name: `${
                 ruokaPvm.toLowerCase().replace(/\s+/g, "") === dateTodayLong
-                  ? "🔅 "
+                  ? "⭐ "
                   : ""
               }${ruokaPvm.replace(/\s+/g, "")}`,
               value: `🍽️  ${
