@@ -24,6 +24,9 @@
     "url": "https://github.com/libreMayk/MaykBot/issues"
   },
   "homepage": "https://github.com/libreMayk/MaykBot#readme",
+  "engines": {
+    "node": ">=16.9.1"
+  },
   "dependencies": {
     "@discordjs/rest": "^0.1.0-canary.0",
     "@tensorflow/tfjs": "^3.11.0",
