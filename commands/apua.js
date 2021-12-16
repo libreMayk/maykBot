@@ -4,7 +4,7 @@ const config = require("../config.json");
 module.exports = {
   name: "apua",
   aliases: ["auta", "help"],
-  description: "Apua!",
+  description: "Saat heti apua - kaikki komennot ovat täällä!",
   category: "info",
   guildOnly: false,
   memberpermissions: "VIEW_CHANNEL",

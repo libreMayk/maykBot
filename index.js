@@ -12,6 +12,7 @@ const { Routes } = require("discord-api-types/v9");
 const fs = require("fs");
 const prettySeconds = require("./my-modules/pretty-seconds-suomi");
 const dotenv = require("dotenv").config();
+const colors = require("colors");
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));

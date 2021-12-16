@@ -1,6 +1,6 @@
 const { MessageEmbed } = require("discord.js");
 const config = require("../config.json");
-const got = require("got");
+const got = (...args) => import("got").then(({ default: got }) => got(...args));
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 

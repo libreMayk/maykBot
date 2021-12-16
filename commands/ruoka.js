@@ -1,7 +1,7 @@
 // const getFood = require("../scripts/getFood");
 const { MessageEmbed, MessageAttachment } = require("discord.js");
 const { createCanvas } = require("canvas");
-const got = require("got");
+const got = (...args) => import("got").then(({ default: got }) => got(...args));
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 
@@ -82,27 +82,25 @@ module.exports = {
             ruokaMenu[dateTodayNumConverted() - 1].textContent;
 
           const ruokaText = ruokaMenu[
-            dateTodayNumConverted() - 1 === 6 || 7
-              ? 0
-              : dateTodayNumConverted() - 1
+            dateTodayNumConverted() - 1
           ].querySelector(".ruoka-header-ruoka").textContent;
 
           const kasvisruokaText = ruokaMenu[
-            dateTodayNumConverted() - 1 === 6 || 7
-              ? 0
-              : dateTodayNumConverted() - 1
+            dateTodayNumConverted() - 1
           ].querySelector(".ruoka-header-kasvisruoka").textContent;
 
           const whichIsLonger = () => {
             if (ruokaText.length > kasvisruokaText.length) {
               return ruokaText;
+            } else if (ruokaPvmText.length > kasvisruokaText.length) {
+              return ruokaPvmText;
             } else {
               return kasvisruokaText;
             }
           };
 
           if (ruokaPvmText.toLocaleLowerCase().includes(dateTodayLong)) {
-            canvas.width = whichIsLonger().length * 10;
+            canvas.width = whichIsLonger().length * 2.5;
             canvas.height = 150;
 
             ctx.fillStyle = "rgba(255, 255, 255, 0)";
@@ -115,7 +113,6 @@ module.exports = {
             ctx.font = "bold 25px Consolas";
             ctx.fillText(
               `${
-                // first letter uppercase
                 dateTodayLong.charAt(0).toUpperCase() + dateTodayLong.slice(1)
               } ${dateToday}`,
               10,
