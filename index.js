@@ -5,7 +5,7 @@ const {
   Intents,
   MessageActionRow,
 } = require("discord.js");
-const config = require("./config.json");
+
 const status = require("./test/json/status.json");
 const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord-api-types/v9");
@@ -33,9 +33,9 @@ for (const file of commandFiles) {
 }
 
 const clientId = "911661457249280021";
-const guildId = config.acceptedGuilds;
+const guildId = process.env.ACCEPTED_GUILDS;
 
-const rest = new REST({ version: "9" }).setToken(config.token);
+const rest = new REST({ version: "9" }).setToken(process.env.DISCORD_TOKEN);
 
 const cooldowns = new Discord.Collection();
 
@@ -150,9 +150,10 @@ client.on("messageCreate", (message) => {
     return;
   }
 
-  if (!message.content.startsWith(config.prefix) || message.author.bot) return;
+  if (!message.content.startsWith(process.env.PREFIX) || message.author.bot)
+    return;
 
-  const args = message.content.slice(config.prefix.length).split(/ +/);
+  const args = message.content.slice(process.env.PREFIX.length).split(/ +/);
   const commandName = args.shift().toLowerCase();
 
   const command =
@@ -162,12 +163,12 @@ client.on("messageCreate", (message) => {
     );
 
   if (
-    message.content.startsWith(config.prefix) &&
-    message.content.length === config.prefix.length
+    message.content.startsWith(process.env.PREFIX) &&
+    message.content.length === process.env.PREFIX.length
   ) {
     message.reply(`:x: Et ole syöttänyt mitään komentoa!`);
     return;
-  } else if (message.content.startsWith(config.prefix) && !command) {
+  } else if (message.content.startsWith(process.env.PREFIX) && !command) {
     message.reply(`:x: Komentoa ei ole olemassa. Tarkista kirjoitusasu.`);
     return;
   }
@@ -186,7 +187,7 @@ client.on("messageCreate", (message) => {
     let reply = `, ${message.author.username}!`;
 
     if (command.usage) {
-      reply += `\nOikea komennon käyttö olisi: \`${config.prefix}${
+      reply += `\nOikea komennon käyttö olisi: \`${process.env.PREFIX}${
         command.usage === "" ? command.name : command.name + " " + command.usage
       }\``;
     }
@@ -204,7 +205,7 @@ client.on("messageCreate", (message) => {
     return message.reply(`:x: Sinulla ei ole oikeuksia käyttää tätä komentoa!`);
   }
 
-  if (command.dev === true && message.author.id !== config.devId) {
+  if (command.dev === true && message.author.id !== process.env.DEV_ID) {
     return message.reply(`:x: Tämä komento on vain kehittäjille!`);
   }
 
@@ -231,7 +232,7 @@ client.on("messageCreate", (message) => {
       if (args[0] === "--usage" || args[0] === "-u") {
         if (command.usage) {
           message.channel.send(
-            `Komennon käyttö: \`${config.prefix}${
+            `Komennon käyttö: \`${process.env.PREFIX}${
               command.usage === ""
                 ? command.name
                 : command.name + " " + command.usage
@@ -241,7 +242,7 @@ client.on("messageCreate", (message) => {
           return;
         } else {
           message.channel.send(
-            `Komennon käyttö: \`${config.prefix}${command.name}\``
+            `Komennon käyttö: \`${process.env.PREFIX}${command.name}\``
           );
           command.cooldown = 0;
           return;
@@ -252,7 +253,7 @@ client.on("messageCreate", (message) => {
         args[0] === "-d"
       ) {
         message.channel.send(
-          `Käyttö: \`${config.prefix}${
+          `Käyttö: \`${process.env.PREFIX}${
             command.usage === ""
               ? command.name
               : command.name + " " + command.usage
@@ -263,7 +264,7 @@ client.on("messageCreate", (message) => {
       } else if (args[0] === "--alias" || args[0] === "-a") {
         if (command.aliases) {
           message.channel.send(
-            `Käyttö: \`${config.prefix}${command.name} ${
+            `Käyttö: \`${process.env.PREFIX}${command.name} ${
               command.usage
             }\`\n\nAliakset: \`${command.aliases.join("`, `")}\``
           );
@@ -271,7 +272,7 @@ client.on("messageCreate", (message) => {
           return;
         } else {
           message.channel.send(
-            `Käyttö: \`${config.prefix}${
+            `Käyttö: \`${process.env.PREFIX}${
               command.usage === ""
                 ? command.name
                 : command.name + " " + command.usage
@@ -282,7 +283,7 @@ client.on("messageCreate", (message) => {
         }
       } else if (args[0] === "--cooldown" || args[0] === "-c") {
         message.channel.send(
-          `Käyttö: \`${config.prefix}${
+          `Käyttö: \`${process.env.PREFIX}${
             command.usage === ""
               ? command.name
               : command.name + " " + command.usage
@@ -292,7 +293,7 @@ client.on("messageCreate", (message) => {
         return;
       } else if (args[0] === "--help" || args[0] === "-h") {
         message.channel.send(
-          `Käyttö: \`${config.prefix}${
+          `Käyttö: \`${process.env.PREFIX}${
             command.usage === ""
               ? command.name
               : command.name + " " + command.usage
@@ -300,7 +301,7 @@ client.on("messageCreate", (message) => {
             command.cooldown === 0
               ? ""
               : `\nCooldown: ${command.cooldown} sekuntia.`
-          }\nKäyttö: \`${config.prefix}${command.name} ${
+          }\nKäyttö: \`${process.env.PREFIX}${command.name} ${
             command.usage
           }\`\nAliakset: \`${
             command.aliases ? command.aliases.join("`, `") : "Ei aliaksia."
@@ -353,8 +354,11 @@ client.on("interactionCreate", async (interaction) => {
     const message = interaction.message;
     const args = interaction.args;
     const user = interaction.user;
-    interaction.reply(interaction.token);
+
+    interaction.reply(
+      `ID: \`${interaction.id}\`\nKäyttäjä: \`${user.tag}\`\nKanava: \`${interaction.channel.name}\``
+    );
   }
 });
 
-client.login(config.token);
+client.login(process.env.DISCORD_TOKEN);

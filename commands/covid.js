@@ -1,4 +1,3 @@
-const config = require("../config.json");
 const { MessageEmbed, MessageButton, MessageActionRow } = require("discord.js");
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
@@ -43,7 +42,7 @@ module.exports = {
                 data.data.confirmed > 0 ? data.data.confirmed : "0"
               }** tartuntaa yhteensä\n**${
                 data.data.confirmed_diff > 0 ? data.data.confirmed_diff : "0"
-              }** tartuntaa viimeisen 2 päivän aikana`,
+              }** tartuntaa tänään`,
               inline: true,
             },
             {
@@ -52,7 +51,7 @@ module.exports = {
                 data.data.deaths > 0 ? data.data.deaths : "0"
               }** kuolemaa yhteensä\n**${
                 data.data.deaths_diff > 0 ? data.data.deaths_diff : "0"
-              }** kuolemaa eilen`,
+              }** kuolemaa tänään`,
               inline: true,
             },
             {

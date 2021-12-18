@@ -78,8 +78,11 @@ module.exports = {
             }
           };
 
-          const ruokaPvmText =
-            ruokaMenu[dateTodayNumConverted() - 1].textContent;
+          const ruokaPvmText = ruokaMenu[dateTodayNumConverted() - 1]
+            .querySelector(".ruoka-header-pvm")
+            .textContent.replace(/\s/g, "")
+            .toString()
+            .toLowerCase();
 
           const ruokaText = ruokaMenu[
             dateTodayNumConverted() - 1
@@ -92,15 +95,13 @@ module.exports = {
           const whichIsLonger = () => {
             if (ruokaText.length > kasvisruokaText.length) {
               return ruokaText;
-            } else if (ruokaPvmText.length > kasvisruokaText.length) {
-              return ruokaPvmText;
             } else {
               return kasvisruokaText;
             }
           };
 
           if (ruokaPvmText.toLocaleLowerCase().includes(dateTodayLong)) {
-            canvas.width = whichIsLonger().length * 2.5;
+            canvas.width = whichIsLonger().length * 20;
             canvas.height = 150;
 
             ctx.fillStyle = "rgba(255, 255, 255, 0)";
@@ -152,10 +153,21 @@ module.exports = {
               ".ruoka-header-kasvisruoka"
             ).textContent;
 
+            const isJoulu = () => {
+              if (
+                ruoka.toLowerCase().includes("joulu") ||
+                kasvisruoka.toLowerCase().includes("joulu")
+              ) {
+                return "🎄";
+              } else {
+                return "🍴";
+              }
+            };
+
             ruokaEmbed.addFields({
               name: `${
                 ruokaPvm.toLowerCase().replace(/\s+/g, "") === dateTodayLong
-                  ? "⭐ "
+                  ? `${isJoulu()} `
                   : ""
               }${ruokaPvm.replace(/\s+/g, "")}`,
               value: `🍽️  ${

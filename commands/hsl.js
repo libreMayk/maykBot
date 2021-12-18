@@ -1,5 +1,5 @@
 const { MessageEmbed, MessageAttachment } = require("discord.js");
-const config = require("../config.json");
+
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
@@ -50,7 +50,7 @@ module.exports = {
             headers: {
               "Content-Type": "application/json",
             },
-            body: `{\"query\":\"{\\n  stopsByRadius(lat: ${config.maykLat}, lon: ${config.maykLon}, radius: 700) {\\n    edges {\\n      node {\\n        stop {\\n          name\\n          code\\n          gtfsId\\n          zoneId\\n          vehicleMode\\n          routes {\\n            shortName\\n            url\\n          }\\n        }\\n        distance\\n      }\\n    }\\n  }\\n}\"}`,
+            body: `{\"query\":\"{\\n  stopsByRadius(lat: ${process.env.MAYK_LAT}, lon: ${process.env.MAYK_LON}, radius: 700) {\\n    edges {\\n      node {\\n        stop {\\n          name\\n          code\\n          gtfsId\\n          zoneId\\n          vehicleMode\\n          routes {\\n            shortName\\n            url\\n          }\\n        }\\n        distance\\n      }\\n    }\\n  }\\n}\"}`,
           }
         ).then((response) => {
           response.json().then((data) => {
@@ -69,7 +69,7 @@ module.exports = {
                   }m\n🚌 **Bussit:** ${element.node.stop.routes
                     .map((route) => route.shortName)
                     .join(", ")}\n${
-                    message.author.id !== config.devId
+                    message.author.id !== process.env.DEV_ID
                       ? ""
                       : `🆔 **gtfsId:** \`${
                           element.node.stop.gtfsId
@@ -93,7 +93,7 @@ module.exports = {
         args[0] === "?"
       ) {
         hslEmbed.setDescription(
-          `Käytä: \n\`${config.prefix}hsl\`\n\`${config.prefix}hsl hae <paikka>\``
+          `Käytä: \n\`${process.env.PREFIX}hsl\`\n\`${process.env.PREFIX}hsl hae <paikka>\``
         );
         message.channel.send({ embeds: [hslEmbed] });
       } else if (
@@ -110,7 +110,7 @@ module.exports = {
             headers: {
               "Content-Type": "application/json",
             },
-            body: `{\"query\":\"{\\n\\tnearest(\\n\\t\\tlat: ${config.maykLat}\\n\\t\\tlon: ${config.maykLon}\\n\\t\\tmaxDistance: 700\\n\\t\\tfilterByPlaceTypes: DEPARTURE_ROW\\n\\t) {\\n\\t\\tedges {\\n\\t\\t\\tnode {\\n\\t\\t\\t\\tplace {\\n\\t\\t\\t\\t\\t... on DepartureRow {\\n\\t\\t\\t\\t\\t\\tstop {\\n\\t\\t\\t\\t\\t\\t\\tname\\n\\t\\t\\t\\t\\t\\t\\tcode\\n\\t\\t\\t\\t\\t\\t\\tzoneId\\n\\t\\t\\t\\t\\t\\t}\\n\\t\\t\\t\\t\\t\\tstoptimes {\\n\\t\\t\\t\\t\\t\\t\\trealtimeDeparture\\n\\t\\t\\t\\t\\t\\t\\trealtimeArrival\\n\\t\\t\\t\\t\\t\\t\\trealtime\\n\\t\\t\\t\\t\\t\\t  departureDelay\\n\\t\\t\\t\\t\\t\\t\\ttrip {\\n\\t\\t\\t\\t\\t\\t\\t\\troute {\\n\\t\\t\\t\\t\\t\\t\\t\\t\\tshortName\\n\\t\\t\\t\\t\\t\\t\\t\\t\\tlongName\\n\\t\\t\\t\\t\\t\\t\\t\\t}\\n\\t\\t\\t\\t\\t\\t\\t}\\n\\t\\t\\t\\t\\t\\t\\theadsign\\n\\t\\t\\t\\t\\t\\t}\\n\\t\\t\\t\\t\\t}\\n\\t\\t\\t\\t}\\n\\t\\t\\t}\\n\\t\\t}\\n\\t}\\n}\\n\"}`,
+            body: `{\"query\":\"{\\n\\tnearest(\\n\\t\\tlat: ${process.env.MAYK_LAT}\\n\\t\\tlon: ${process.env.MAYK_LON}\\n\\t\\tmaxDistance: 700\\n\\t\\tfilterByPlaceTypes: DEPARTURE_ROW\\n\\t) {\\n\\t\\tedges {\\n\\t\\t\\tnode {\\n\\t\\t\\t\\tplace {\\n\\t\\t\\t\\t\\t... on DepartureRow {\\n\\t\\t\\t\\t\\t\\tstop {\\n\\t\\t\\t\\t\\t\\t\\tname\\n\\t\\t\\t\\t\\t\\t\\tcode\\n\\t\\t\\t\\t\\t\\t\\tzoneId\\n\\t\\t\\t\\t\\t\\t}\\n\\t\\t\\t\\t\\t\\tstoptimes {\\n\\t\\t\\t\\t\\t\\t\\trealtimeDeparture\\n\\t\\t\\t\\t\\t\\t\\trealtimeArrival\\n\\t\\t\\t\\t\\t\\t\\trealtime\\n\\t\\t\\t\\t\\t\\t  departureDelay\\n\\t\\t\\t\\t\\t\\t\\ttrip {\\n\\t\\t\\t\\t\\t\\t\\t\\troute {\\n\\t\\t\\t\\t\\t\\t\\t\\t\\tshortName\\n\\t\\t\\t\\t\\t\\t\\t\\t\\tlongName\\n\\t\\t\\t\\t\\t\\t\\t\\t}\\n\\t\\t\\t\\t\\t\\t\\t}\\n\\t\\t\\t\\t\\t\\t\\theadsign\\n\\t\\t\\t\\t\\t\\t}\\n\\t\\t\\t\\t\\t}\\n\\t\\t\\t\\t}\\n\\t\\t\\t}\\n\\t\\t}\\n\\t}\\n}\\n\"}`,
           }
         ).then((response) => {
           response
@@ -298,7 +298,7 @@ module.exports = {
                   )
                   .setTimestamp();
 
-                if (message.author.id !== config.devId) {
+                if (message.author.id !== process.env.DEV_ID) {
                   message.channel.send({ embeds: [hslHakuEmbed] });
                 } else {
                   hslHakuEmbed.addFields({

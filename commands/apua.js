@@ -1,5 +1,4 @@
 const { MessageEmbed, MessageButton } = require("discord.js");
-const config = require("../config.json");
 
 module.exports = {
   name: "apua",
@@ -26,7 +25,7 @@ module.exports = {
       );
 
     message.client.commands
-      // .filter((cmd) => cmd.name !== "help")
+      .filter((cmd) => cmd.name !== "help")
       .map((cmd) =>
         helpEmbed.addFields({
           name: `${cmd.name} | ${cmd.aliases.join(", ")}`,

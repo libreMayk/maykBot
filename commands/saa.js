@@ -1,5 +1,5 @@
 const { MessageEmbed, MessageAttachment } = require("discord.js");
-const config = require("../config.json");
+
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
 const { createCanvas } = require("canvas");
@@ -26,9 +26,9 @@ module.exports = {
     });
 
     try {
-      let lat = config.maykLat;
-      let lon = config.maykLon;
-      let apiKey = config.weatherApiKey;
+      let lat = process.env.MAYK_LAT;
+      let lon = process.env.MAYK_LON;
+      let apiKey = process.env.WEATHER_API_KEY;
       const weatherInfo = async () => {
         const allData = await fetch(
           `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}`,

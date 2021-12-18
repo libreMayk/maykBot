@@ -1,9 +1,8 @@
-const config = require("../config.json");
 const prettySeconds = require("../my-modules/pretty-seconds-suomi");
 
 module.exports = {
   name: "uptime",
-  aliases: ["päälläoloaika"],
+  aliases: ["päälläoloaika", "up", "poa"],
   description: "Yes.",
   category: "util",
   guildOnly: true,
@@ -14,7 +13,7 @@ module.exports = {
   execute(message, args) {
     message.channel.send(
       `Päälläoloaika: ${prettySeconds(
-        Math.floor((message.client.uptime / 1000) % 60)
+        Math.floor(message.client.uptime / 1000)
       )}`
     );
   },

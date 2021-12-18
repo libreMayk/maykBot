@@ -1,4 +1,3 @@
-const config = require("../config.json");
 const math = require("mathjs");
 const { MessageEmbed } = require("discord.js");
 
@@ -15,7 +14,7 @@ module.exports = {
   execute(message, args) {
     if (args.length < 1) {
       return message.reply(
-        `**Käytä**: \`${config.prefix}${this.name} <lauseke>\``
+        `**Käytä**: \`${process.env.PREFIX}${this.name} <lauseke>\``
       );
     }
     try {
