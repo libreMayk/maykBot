@@ -50,7 +50,7 @@ module.exports = {
             headers: {
               "Content-Type": "application/json",
             },
-            body: `{\"query\":\"{\\n  stopsByRadius(lat: ${process.env.MAYK_LAT}, lon: ${process.env.MAYK_LON}, radius: 700) {\\n    edges {\\n      node {\\n        stop {\\n          name\\n          code\\n          gtfsId\\n          zoneId\\n          vehicleMode\\n          routes {\\n            shortName\\n            url\\n          }\\n        }\\n        distance\\n      }\\n    }\\n  }\\n}\"}`,
+            body: `{\"query\":\"{\\n  stopsByRadius(lat: 60.22984760837544, lon: 24.925459757586037, radius: 700) {\\n    edges {\\n      node {\\n        stop {\\n          name\\n          code\\n          gtfsId\\n          zoneId\\n          vehicleMode\\n          routes {\\n            shortName\\n            url\\n          }\\n        }\\n        distance\\n      }\\n    }\\n  }\\n}\"}`,
           }
         ).then((response) => {
           response.json().then((data) => {
@@ -110,7 +110,7 @@ module.exports = {
             headers: {
               "Content-Type": "application/json",
             },
-            body: `{\"query\":\"{\\n\\tnearest(\\n\\t\\tlat: ${process.env.MAYK_LAT}\\n\\t\\tlon: ${process.env.MAYK_LON}\\n\\t\\tmaxDistance: 700\\n\\t\\tfilterByPlaceTypes: DEPARTURE_ROW\\n\\t) {\\n\\t\\tedges {\\n\\t\\t\\tnode {\\n\\t\\t\\t\\tplace {\\n\\t\\t\\t\\t\\t... on DepartureRow {\\n\\t\\t\\t\\t\\t\\tstop {\\n\\t\\t\\t\\t\\t\\t\\tname\\n\\t\\t\\t\\t\\t\\t\\tcode\\n\\t\\t\\t\\t\\t\\t\\tzoneId\\n\\t\\t\\t\\t\\t\\t}\\n\\t\\t\\t\\t\\t\\tstoptimes {\\n\\t\\t\\t\\t\\t\\t\\trealtimeDeparture\\n\\t\\t\\t\\t\\t\\t\\trealtimeArrival\\n\\t\\t\\t\\t\\t\\t\\trealtime\\n\\t\\t\\t\\t\\t\\t  departureDelay\\n\\t\\t\\t\\t\\t\\t\\ttrip {\\n\\t\\t\\t\\t\\t\\t\\t\\troute {\\n\\t\\t\\t\\t\\t\\t\\t\\t\\tshortName\\n\\t\\t\\t\\t\\t\\t\\t\\t\\tlongName\\n\\t\\t\\t\\t\\t\\t\\t\\t}\\n\\t\\t\\t\\t\\t\\t\\t}\\n\\t\\t\\t\\t\\t\\t\\theadsign\\n\\t\\t\\t\\t\\t\\t}\\n\\t\\t\\t\\t\\t}\\n\\t\\t\\t\\t}\\n\\t\\t\\t}\\n\\t\\t}\\n\\t}\\n}\\n\"}`,
+            body: `{\"query\":\"{\\n\\tnearest(\\n\\t\\tlat: 60.22984760837544\\n\\t\\tlon: 24.925459757586037\\n\\t\\tmaxDistance: 700\\n\\t\\tfilterByPlaceTypes: DEPARTURE_ROW\\n\\t) {\\n\\t\\tedges {\\n\\t\\t\\tnode {\\n\\t\\t\\t\\tplace {\\n\\t\\t\\t\\t\\t... on DepartureRow {\\n\\t\\t\\t\\t\\t\\tstop {\\n\\t\\t\\t\\t\\t\\t\\tname\\n\\t\\t\\t\\t\\t\\t\\tcode\\n\\t\\t\\t\\t\\t\\t\\tzoneId\\n\\t\\t\\t\\t\\t\\t}\\n\\t\\t\\t\\t\\t\\tstoptimes {\\n\\t\\t\\t\\t\\t\\t\\trealtimeDeparture\\n\\t\\t\\t\\t\\t\\t\\trealtimeArrival\\n\\t\\t\\t\\t\\t\\t\\trealtime\\n\\t\\t\\t\\t\\t\\t  departureDelay\\n\\t\\t\\t\\t\\t\\t\\ttrip {\\n\\t\\t\\t\\t\\t\\t\\t\\troute {\\n\\t\\t\\t\\t\\t\\t\\t\\t\\tshortName\\n\\t\\t\\t\\t\\t\\t\\t\\t\\tlongName\\n\\t\\t\\t\\t\\t\\t\\t\\t}\\n\\t\\t\\t\\t\\t\\t\\t}\\n\\t\\t\\t\\t\\t\\t\\theadsign\\n\\t\\t\\t\\t\\t\\t}\\n\\t\\t\\t\\t\\t}\\n\\t\\t\\t\\t}\\n\\t\\t\\t}\\n\\t\\t}\\n\\t}\\n}\\n\"}`,
           }
         ).then((response) => {
           response

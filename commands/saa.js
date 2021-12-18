@@ -26,8 +26,8 @@ module.exports = {
     });
 
     try {
-      let lat = process.env.MAYK_LAT;
-      let lon = process.env.MAYK_LON;
+      let lat = 60.22984760837544;
+      let lon = 24.925459757586037;
       let apiKey = process.env.WEATHER_API_KEY;
       const weatherInfo = async () => {
         const allData = await fetch(

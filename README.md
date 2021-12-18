@@ -16,6 +16,21 @@ Some commands are available to the bot. You can use the following commands:
 - `m!yle`: Returns latest news from Yle.
 - `m!weather`: Returns the weather in Maunula.
 
+## Installation
+
+To use the bot, you only need to add the `.env` file:
+
+```dotenv
+WEATHER_API_KEY=<your-openweathermap-api-key>
+HSL_KEY=<your-hsl-api-key>
+DEV_ID=<most-likely-your-discord-user-id>
+DISCORD_TOKEN=<your-bot-token>
+ACCEPTED_GUILDS=<your-server-id>
+PREFIX=<bot-prefix>
+```
+
+And of course, install all the node modules in the `node_modules` folder. Check `package.json` file for more information about the dependencies.
+
 ### Examples (images)
 
 [HSL Embed](/github/screenshots/hsl-ss.png)
