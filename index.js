@@ -16,12 +16,29 @@ const colors = require("colors");
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
+const Sequelize = require("sequelize");
 
 const client = new Discord.Client({
   intents: 32767,
   partials: ["MESSAGE", "CHANNEL", "REACTION", "USER", "GUILD_MEMBER"],
 });
 client.commands = new Discord.Collection();
+
+const sequelize = new Sequelize("database", "user", "password", {
+  host: "localhost",
+  dialect: "sqlite",
+  logging: false,
+  storage: "database.sqlite",
+});
+
+const Tags = sequelize.define("tags", {
+  username: {
+    type: Sequelize.STRING,
+    unique: true,
+  },
+  usertag: Sequelize.STRING,
+  userid: Sequelize.STRING,
+});
 
 const commandFiles = fs
   .readdirSync("./commands")
@@ -66,7 +83,6 @@ client.once("ready", () => {
       console.log("Successfully reloaded application (/) commands.");
     } catch (error) {
       console.error(error);
-      message.reply(`:x: **Tapahtui virhe:**\n\`${error}\``);
     }
   })();
 });
@@ -312,7 +328,7 @@ client.on("messageCreate", (message) => {
         command.cooldown = 0;
         return;
       } else {
-        command.execute(message, args, command, config, client, fetch, config);
+        command.execute(message, args, command, client, fetch, Tags);
       }
     } catch (error) {
       console.error(error);
@@ -322,38 +338,12 @@ client.on("messageCreate", (message) => {
 });
 
 client.on("interactionCreate", async (interaction) => {
-  if (interaction.type === "MESSAGE_REACTION_ADD") {
-    const message = interaction.message;
-    const emoji = interaction.emoji;
-    const user = interaction.user;
-
-    if (user.id === client.user.id) return;
-
-    if (emoji.name === "🔄") {
-      message.channel.messages.fetch(message.id).then((msg) => {
-        msg.reactions.removeAll();
-      });
-    }
-  }
-
-  if (interaction.type === "MESSAGE_REACTION_REMOVE") {
-    const message = interaction.message;
-    const emoji = interaction.emoji;
-    const user = interaction.user;
-
-    if (user.id === client.user.id) return;
-
-    if (emoji.name === "🔄") {
-      message.channel.messages.fetch(message.id).then((msg) => {
-        msg.reactions.removeAll();
-      });
-    }
-  }
-
   if (interaction.type === "APPLICATION_COMMAND") {
-    const message = interaction.message;
+    let message = interaction.message;
     const args = interaction.args;
     const user = interaction.user;
+
+    const { commandName } = interaction;
 
     interaction.reply(
       `ID: \`${interaction.id}\`\nKäyttäjä: \`${user.tag}\`\nKanava: \`${interaction.channel.name}\``

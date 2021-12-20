@@ -54,6 +54,32 @@ module.exports = {
         message.client.user.displayAvatarURL()
       );
 
-    message.channel.send({ embeds: [maykEmbed] });
+    const msg = message.channel.send({
+      embeds: [maykEmbed],
+    });
+
+    msg.then((msg) => {
+      msg.react("✔").then(() => msg.react("❔"));
+
+      const filter = (reaction, user) =>
+        ["✔", "❔"].includes(reaction.emoji.name) &&
+        user.id === message.author.id;
+
+      const collector = msg.createReactionCollector(filter, {
+        time: 60000,
+      });
+
+      collector.on("collect", (reaction, user) => {
+        if (user.bot) return;
+
+        if (reaction.emoji.name === "✔") {
+          message.author.send("✔");
+        } else if (reaction.emoji.name === "❔") {
+          message.author.send("❔");
+        } else {
+          message.author.send(reaction.emoji.name);
+        }
+      });
+    });
   },
 };

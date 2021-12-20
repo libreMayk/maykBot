@@ -5,3 +5,4 @@ storage.txt
 .env
 functions
 test
+package-lock.json
