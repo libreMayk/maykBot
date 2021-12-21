@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "heroku-prebuild": "git config --global url.\"https://\".insteadOf ssh://"
+    "heroku-prebuild": "mkdir -p test/json && git config --global url.\"https://\".insteadOf ssh://"
   },
   "repository": {
     "type": "git",
