@@ -1,0 +1,15 @@
+{
+  "emojis": ["☁️", "🌩️", "🌧️", "⛈️", "🌨️", "☀️", "🌤️", "⛅", "🌦️", "🌙"],
+  "emojisText": [
+    ":cloud:",
+    ":cloud_rain:",
+    ":cloud_lightning:",
+    ":thunder_cloud_rain:",
+    ":cloud_snow:",
+    ":sunny:",
+    ":white_sun_small_cloud:",
+    ":partly_sunny:",
+    ":white_sun_rain_cloud:",
+    ":crescent_moon:"
+  ]
+}
