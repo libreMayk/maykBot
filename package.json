@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-prebuild": "ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts"
+    "heroku-prebuild": "mkdir -p ~/.ssh && ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts"
   },
   "repository": {
     "type": "git",
