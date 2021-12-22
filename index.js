@@ -55,14 +55,18 @@ client.once("ready", () => {
 
   startServer((req, res) => {
     res.statusCode = 200;
-    res.setHeader("Content-Type", "text/html");
+    res.setHeader("Content-Type", "application/json");
     res.end(
       JSON.stringify({
-        username: client.user.username,
-        status: client.user.presence.status,
-        gitRepo: "https://github.com/libreMayk/maykBot",
-        uptime: prettySeconds(client.uptime),
-        guilds: client.guilds.cache.size,
+        siteStatus: "online",
+        code: 200,
+        bot: {
+          username: client.user.username,
+          status: client.user.presence.status,
+          gitRepo: "https://github.com/libreMayk/maykBot",
+          uptime: prettySeconds(client.uptime / 1000),
+          guilds: client.guilds.cache.size,
+        },
       })
     );
     return true;
