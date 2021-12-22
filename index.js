@@ -47,7 +47,7 @@ const maykStatus = setInterval(() => {
       url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     }
   );
-}, 5000);
+}, 65000);
 
 client.once("ready", () => {
   console.log(`${client.user.username}`.rainbow + ` is ready!`);
