@@ -56,41 +56,45 @@ module.exports = {
 
           const dateTodayNumConverted = () => {
             if (dateTodayNum === "ma") {
-              return 1;
+              return 0;
             }
             if (dateTodayNum === "ti") {
-              return 2;
+              return 1;
             }
             if (dateTodayNum === "ke") {
-              return 3;
+              return 2;
             }
             if (dateTodayNum === "to") {
-              return 4;
+              return 3;
             }
             if (dateTodayNum === "pe") {
-              return 5;
+              return 4;
             }
-            if (dateTodayNum === "la") {
-              return 6;
-            }
-            if (dateTodayNum === "su") {
-              return 7;
-            }
+            return undefined;
           };
 
-          const ruokaPvmText = ruokaMenu[dateTodayNumConverted() - 1]
-            .querySelector(".ruoka-header-pvm")
-            .textContent.replace(/\s/g, "")
-            .toString()
-            .toLowerCase();
+          const dayNum = dateTodayNumConverted();
 
-          const ruokaText = ruokaMenu[
-            dateTodayNumConverted() - 1
-          ].querySelector(".ruoka-header-ruoka").textContent;
+          const ruokaPvmText =
+            dayNum !== undefined && ruokaMenu[dayNum]
+              ? ruokaMenu[dayNum]
+                  .querySelector(".ruoka-header-pvm")
+                  .textContent.replace(/\s/g, "")
+                  .toString()
+                  .toLowerCase()
+              : "";
 
-          const kasvisruokaText = ruokaMenu[
-            dateTodayNumConverted() - 1
-          ].querySelector(".ruoka-header-kasvisruoka").textContent;
+          const ruokaText =
+            dayNum !== undefined && ruokaMenu[dayNum]
+              ? ruokaMenu[dayNum].querySelector(".ruoka-header-ruoka")
+                  .textContent
+              : "";
+
+          const kasvisruokaText =
+            dayNum !== undefined && ruokaMenu[dayNum]
+              ? ruokaMenu[dayNum].querySelector(".ruoka-header-kasvisruoka")
+                  .textContent
+              : "";
 
           const whichIsLonger = () => {
             if (ruokaText.length > kasvisruokaText.length) {
@@ -127,7 +131,7 @@ module.exports = {
               140
             );
           } else {
-            canvas.width = 485;
+            canvas.width = 540;
             canvas.height = 50;
             ctx.fillStyle = "rgba(255, 255, 255, 0)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
