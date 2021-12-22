@@ -14,6 +14,7 @@ const prettySeconds = require("./my-modules/pretty-seconds-suomi");
 const dotenv = require("dotenv").config();
 const colors = require("colors");
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const { startServer } = require("./server");
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
@@ -51,6 +52,13 @@ const maykStatus = setInterval(() => {
 
 client.once("ready", () => {
   console.log(`${client.user.username}`.rainbow + ` is ready!`);
+
+  startServer((req, res) => {
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'text/plain');
+    res.end(client.user.username);
+    return true
+  });
 
   client.user.setStatus("idle");
   maykStatus;
