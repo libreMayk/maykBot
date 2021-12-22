@@ -31,7 +31,8 @@ PREFIX=<bot-prefix>
 ```
 
 **And** install all necessary `node_modules`; just run `npm install`
-Then you should be done!
+
+Then you should be done! Thanks for using maykBot!
 
 ### Examples (images)
 
