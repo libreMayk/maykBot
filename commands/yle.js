@@ -8,7 +8,7 @@ module.exports = {
   name: "yle",
   aliases: ["yle-uutiset", "yle-news", "news", "uutiset"],
   description: "Uutisia Ylestä!",
-  category: "category",
+  category: "info",
   guildOnly: false,
   memberpermissions: "VIEW_CHANNEL",
   adminPermOverride: false,

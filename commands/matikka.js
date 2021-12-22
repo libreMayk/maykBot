@@ -4,7 +4,7 @@ const { MessageEmbed } = require("discord.js");
 module.exports = {
   name: "matikka",
   aliases: ["matematiikka", "math", "ma"],
-  description: "Smol laskin",
+  description: "Tavallinen laskin, muuntaminen jne.",
   category: "util",
   guildOnly: false,
   memberpermissions: "VIEW_CHANNEL",

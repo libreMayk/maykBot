@@ -12,7 +12,6 @@ module.exports = {
   cooldown: 2,
   usage: "",
   async execute(message, args) {
-    // show all guilds where bot is in, map to embed
     const guildEmbed = new MessageEmbed()
       .setColor("BLURPLE")
       .setAuthor(message.guild.name, message.guild.iconURL())

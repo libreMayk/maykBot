@@ -6,8 +6,8 @@ const { JSDOM } = jsdom;
 module.exports = {
   name: "cal",
   aliases: ["calendar", "kalenteri", "kal"],
-  description: "mayk.fi kalenteri",
-  category: "category",
+  description: "mayk.fi kalenteri!",
+  category: "util",
   guildOnly: true,
   memberpermissions: "VIEW_CHANNEL",
   adminPermOverride: false,

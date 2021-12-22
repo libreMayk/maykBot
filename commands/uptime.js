@@ -3,8 +3,8 @@ const prettySeconds = require("../my-modules/pretty-seconds-suomi");
 module.exports = {
   name: "uptime",
   aliases: ["päälläoloaika", "up", "poa"],
-  description: "Yes.",
-  category: "util",
+  description: "Botin päälläoloaika.",
+  category: "info",
   guildOnly: true,
   memberpermissions: "VIEW_CHANNEL",
   adminPermOverride: false,

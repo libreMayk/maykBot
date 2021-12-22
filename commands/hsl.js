@@ -6,7 +6,7 @@ const fetch = (...args) =>
 module.exports = {
   name: "hsl",
   aliases: ["hsl"],
-  description: "HSL | Katso miten pääset Maunulasta jonnekin!",
+  description: "HSL - Katso miten pääset Maunulasta jonnekin!",
   category: "util",
   guildOnly: false,
   memberpermissions: "VIEW_CHANNEL",

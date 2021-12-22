@@ -13,7 +13,7 @@ module.exports = {
     "koronavirus",
     "covid-19",
   ],
-  description: "COVID-19 info",
+  description: "COVID-19 info.",
   category: "info",
   guildOnly: false,
   memberpermissions: "VIEW_CHANNEL",
