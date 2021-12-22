@@ -1,6 +1,6 @@
 {
   "name": "maykbot",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Maunulan Yhteiskoulu Botti - ruokaa, uutisia, blogi, sää ja paljon muuta!",
   "main": "index.js",
   "scripts": {
@@ -32,7 +32,6 @@
   },
   "dependencies": {
     "@discordjs/rest": "^0.1.0-canary.0",
-    "@tensorflow/tfjs": "^3.12.0",
     "ajv": "^8.8.2",
     "canvas": "^2.8.0",
     "colors": "^1.4.0",
@@ -40,18 +39,14 @@
     "discord-api-types": "^0.25.2",
     "discord.js": "^13.3.1",
     "dotenv": "^10.0.0",
-    "express": "^4.17.1",
-    "forever-monitor": "^3.0.3",
     "get-urls": "^10.0.1",
     "glob-parent": "^6.0.2",
-    "googleapis": "^92.0.0",
     "got": "^12.0.0",
     "jsdom": "^19.0.0",
     "jsprim": "^1.4.2",
     "mathjs": "^10.0.0",
     "node-fetch": "^3.1.0",
     "nodemon": "^2.0.15",
-    "pngjs": "^3.3.3",
-    "sequelize": "^6.12.0"
+    "pngjs": "^3.3.3"
   }
 }
