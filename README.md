@@ -1,4 +1,4 @@
-# maykBot
+# maykBot v1.1.0
 
 Please notice that this bot is still in development, so it may not work as expected. If you want to contribute, please feel free to fork the repository and make a pull request.
 
