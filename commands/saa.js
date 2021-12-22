@@ -142,7 +142,7 @@ module.exports = {
         ctx.fillText(`Ilmanpaine: ${json.main.pressure} hPa`, 10, 160);
         ctx.fillText(`Ilmankosteus: ${json.main.humidity}%`, 10, 200);
         ctx.fillText(
-          `Tuuli:\n    Nopeus: ${json.wind.speed}\n    Suunta: ${json.wind.deg}°\n    Puuska: ${json.wind.gust} m/s`,
+          `Tuuli:\n    Nopeus: ${json.wind.speed} m/s\n    Suunta: ${json.wind.deg}°\n    Puuska: ${json.wind.gust}`,
           10,
           240
         );
