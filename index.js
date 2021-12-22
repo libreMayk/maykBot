@@ -55,17 +55,17 @@ client.once("ready", () => {
 
   startServer((req, res) => {
     res.statusCode = 200;
-    res.setHeader("Content-Type", "application/json");
+    res.setHeader("Content-Type", "text/html");
     res.end(
-      {
+      JSON.stringify({
         username: client.user.username,
         status: client.user.presence.status,
         gitRepo: "https://github.com/libreMayk/maykBot",
         uptime: prettySeconds(client.uptime),
         guilds: client.guilds.cache.size,
-      }
+      })
     );
-    return true
+    return true;
   });
 
   client.user.setStatus("idle");
