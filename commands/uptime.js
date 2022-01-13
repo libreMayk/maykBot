@@ -5,7 +5,7 @@ module.exports = {
   aliases: ["päälläoloaika", "up", "poa"],
   description: "Botin päälläoloaika.",
   category: "info",
-  guildOnly: true,
+  guildOnly: false,
   memberpermissions: "VIEW_CHANNEL",
   adminPermOverride: false,
   cooldown: 2,

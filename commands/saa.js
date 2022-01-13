@@ -198,9 +198,9 @@ module.exports = {
             },
             {
               name: `Tuuli`,
-              value: `**Nopeus**: ${json.wind.speed}\n**Suunta**: ${
+              value: `**Nopeus**: ${json.wind.speed} m/s\n**Suunta**: ${
                 json.wind.deg
-              }° ${windDirMoji()}\n**Puuska**: ${json.wind.gust} m/s`,
+              }° ${windDirMoji()}\n**Puuska**: ${json.wind.gust}`,
               inline: true,
             },
             {

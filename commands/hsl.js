@@ -5,10 +5,10 @@ const fetch = (...args) =>
 
 module.exports = {
   name: "hsl",
-  aliases: ["hsl"],
+  aliases: ["hsl", "bus", "bussi", "hel"],
   description: "HSL - Katso miten pääset Maunulasta jonnekin!",
   category: "util",
-  guildOnly: false,
+  guildOnly: true,
   memberpermissions: "VIEW_CHANNEL",
   adminPermOverride: true,
   cooldown: 0,
@@ -41,7 +41,6 @@ module.exports = {
         .setTitle("<:hslLogo:914091968785711134>  Helsingin Seudun Liikenne")
         .setDescription(`HSL - Lähellä koulua olevat pysäkit`)
         .setTimestamp();
-
       if (!args.length || !allArgs.includes(args[0].toLowerCase())) {
         fetch(
           "https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql",
@@ -275,8 +274,8 @@ module.exports = {
                   )
                   .setDescription(
                     `
-                  ${element.properties.label}
-                `
+                    ${element.properties.label}
+                  `
                   )
                   .addFields(
                     {
@@ -290,8 +289,8 @@ module.exports = {
                     },
                     {
                       name: `
-                    📍 Sijainti
-                    `,
+                      📍 Sijainti
+                      `,
                       value: `${element.geometry.coordinates[0]}, ${element.geometry.coordinates[1]}`,
                       inline: false,
                     }
