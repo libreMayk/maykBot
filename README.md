@@ -36,5 +36,5 @@ Then you should be done! Thanks for using maykBot!
 
 ### Examples (images)
 
-[HSL Embed](/github/screenshots/hsl-ss.png)
-[Covid Embed](/github/screenshots/covid-ss.png)
+<img src="./github/screenshots/hsl-ss.png" style="width: 20rem; border-radius: 1%;" />
+<img src="./github/screenshots/covid-ss.png" style="width: 30.7rem; border-radius: 1%;" />
