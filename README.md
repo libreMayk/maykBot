@@ -36,5 +36,5 @@ Then you should be done! Thanks for using maykBot!
 
 ### Examples (images)
 
-<img src="./github/screenshots/hsl-ss.png" width="400" />
-<img src="./github/screenshots/covid-ss.png" width="614rem" />
+<img src="./github/screenshots/hsl-ss.png" width="400" align="center" />
+<img src="./github/screenshots/covid-ss.png" width="614rem" align="center" />
