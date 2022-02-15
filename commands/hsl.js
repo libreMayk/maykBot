@@ -6,13 +6,13 @@ const fetch = (...args) =>
 module.exports = {
   name: "hsl",
   aliases: ["hsl", "bus", "bussi", "hel"],
-  description: "HSL - Katso miten pääset Maunulasta jonnekin!",
+  description: "HSL - Katso miten pääset koulusta johonkin, tai etsi paikkaa.",
   category: "util",
   guildOnly: true,
   memberpermissions: "VIEW_CHANNEL",
   adminPermOverride: true,
   cooldown: 0,
-  usage: "<hae/apua/> <paikka/kunta/kaupunki>",
+  usage: "<etsi/apua> <etsi:paikka/kunta/kaupunki>",
   execute(message, args) {
     try {
       const allArgs = [

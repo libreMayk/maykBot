@@ -8,7 +8,7 @@ const { JSDOM } = jsdom;
 module.exports = {
   name: "ruoka",
   aliases: ["ruokala", "food"],
-  description: "Ruoka tällä viikolla MAYK:issä!",
+  description: "Ruoka tällä viikolla MaYKissä!",
   category: "info",
   guildOnly: false,
   memberpermissions: "VIEW_CHANNEL",
@@ -124,9 +124,9 @@ module.exports = {
               80
             );
             ctx.font = "25px Consolas";
-            ctx.fillText(`🍽️ ${ruokaText}`, 10, 110);
+            ctx.fillText(`> ${ruokaText}`, 10, 110);
             ctx.fillText(
-              `🌱 ${kasvisruokaText.replace(/  Kasvisruoka/g, "")}`,
+              `K ${kasvisruokaText.replace(/  Kasvisruoka/g, "")}`,
               10,
               140
             );

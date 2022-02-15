@@ -7,7 +7,7 @@ const { JSDOM } = jsdom;
 module.exports = {
   name: "yle",
   aliases: ["yle-uutiset", "yle-news", "news", "uutiset"],
-  description: "Uutisia Ylestä!",
+  description: "Yle-uutiset.",
   category: "info",
   guildOnly: false,
   memberpermissions: "VIEW_CHANNEL",

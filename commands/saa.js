@@ -7,7 +7,7 @@ const { createCanvas } = require("canvas");
 module.exports = {
   name: "saa",
   aliases: ["sää", "weather"],
-  description: "Näyttää säätä Maunulassa.",
+  description: "Näyttää sään Maunulassa.",
   category: "info",
   guildOnly: false,
   memberpermissions: "VIEW_CHANNEL",
@@ -115,7 +115,7 @@ module.exports = {
 
         ctx.fillStyle = "rgba(115, 126, 255, 0.5)";
         ctx.fillRect(0, 0, 800, 390);
-        ctx.font = "bold 40px Ubuntu";
+        ctx.font = "bold 40px Consolas";
         ctx.fillStyle = "#ffffff";
         ctx.fillText(
           `Sää Maunulassa klo ${new Date().toLocaleString("fi-FI", {
@@ -125,7 +125,7 @@ module.exports = {
           10,
           40
         );
-        ctx.font = "26px Ubuntu";
+        ctx.font = "26px Consolas";
         ctx.fillText(
           `Säätila: ${
             json.weather[0].description.charAt(0).toUpperCase() +
@@ -142,7 +142,13 @@ module.exports = {
         ctx.fillText(`Ilmanpaine: ${json.main.pressure} hPa`, 10, 160);
         ctx.fillText(`Ilmankosteus: ${json.main.humidity}%`, 10, 200);
         ctx.fillText(
-          `Tuuli:\n    Nopeus: ${json.wind.speed} m/s\n    Suunta: ${json.wind.deg}°\n    Puuska: ${json.wind.gust}`,
+          `Tuuli:\n    Nopeus: ${
+            json.wind.speed ? json.wind.speed : "ei tietoa"
+          } m/s\n    Suunta: ${
+            json.wind.deg ? json.wind.deg : "ei tietoa"
+          }°\n    Puuska: ${
+            json.wind.gust ? json.wind.gust : "ei tietoa"
+          }`,
           10,
           240
         );
@@ -198,9 +204,13 @@ module.exports = {
             },
             {
               name: `Tuuli`,
-              value: `**Nopeus**: ${json.wind.speed} m/s\n**Suunta**: ${
-                json.wind.deg
-              }° ${windDirMoji()}\n**Puuska**: ${json.wind.gust}`,
+              value: `**Nopeus**: ${
+                json.wind.speed ? json.wind.speed : "ei tietoa"
+              } m/s\n**Suunta**: ${
+                json.wind.deg ? json.wind.deg : "ei tietoa"
+              }° ${windDirMoji()}\n**Puuska**: ${
+                json.wind.gust ? json.wind.gust : "ei tietoa"
+              }`,
               inline: true,
             },
             {
