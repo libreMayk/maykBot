@@ -138,6 +138,8 @@ module.exports = {
             ctx.fillStyle = "#f7f7f7";
             ctx.font = "bold 40px Consolas";
             ctx.fillText("Tänään ei ole ruokaa!", 10, 35);
+
+            ruokaEmbed.setDescription("Ei ole ruokaa tällä viikolla!")
           }
 
           const attachment = new MessageAttachment(
@@ -196,8 +198,9 @@ module.exports = {
             `:white_check_mark: **Tällä viikolla ruokalassa MAYK:issä:**`
           );
         })
-        .catch((err) => {
-          console.log(err);
+        .catch((error) => {
+          console.log(error);
+          message.reply(`:x: **Tapahtui virhe:**\n\`${error}\``);
         });
     });
   },

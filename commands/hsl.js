@@ -34,7 +34,7 @@ module.exports = {
 
       const hslEmbed = new MessageEmbed()
         .setColor("#007ac9")
-        .setAuthor("digitransit.fi")
+        .setAuthor("hsl.fi", "https://raw.githubusercontent.com/libreMayk/maykBot/main/assets/hsl.png", "https://hsl.fi/")
         .setThumbnail(
           "https://raw.githubusercontent.com/libreMayk/maykBot/main/assets/hsl.png"
         )
@@ -117,7 +117,7 @@ module.exports = {
             .then((data) => {
               const realtimeEmbed = new MessageEmbed()
                 .setColor("#007ac9")
-                .setAuthor("digitransit.fi")
+                .setAuthor("hsl.fi", "https://raw.githubusercontent.com/libreMayk/maykBot/main/assets/hsl.png", "https://hsl.fi/")
                 .setThumbnail(
                   "https://raw.githubusercontent.com/libreMayk/maykBot/main/assets/hsl.png"
                 )
@@ -199,7 +199,7 @@ module.exports = {
               });
               message.channel.send({ embeds: [realtimeEmbed] });
             })
-            .catch((err) => {
+            .catch((error) => {
               console.error(error);
               message.reply(`:x: **Tapahtui virhe:**\n\`${error}\``);
               return;
@@ -265,7 +265,7 @@ module.exports = {
 
                 const hslHakuEmbed = new MessageEmbed()
                   .setColor("#007ac9")
-                  .setAuthor("digitransit.fi")
+                  .setAuthor("hsl.fi", "https://raw.githubusercontent.com/libreMayk/maykBot/main/assets/hsl.png", "https://hsl.fi/")
                   .setThumbnail(
                     "https://raw.githubusercontent.com/libreMayk/maykBot/main/assets/hsl.png"
                   )

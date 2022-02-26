@@ -24,31 +24,44 @@ module.exports = {
         .then((response) => {
           document.body.innerHTML = response.body;
 
-          const titleText = document.querySelector(
-            "h3.Typography__ResponsiveTypography-sc-1his0m9-1.gbPrlN.link-accent"
-          ).textContent;
+          const titleText =
+            document.querySelector(
+              "h3.Typography-sc-1his0m9-0.CardHeading__Heading-sc-1b16hi0-0.kPXLsQ.gBvjDy.link-accent"
+            ).textContent || `yle.fi`;
 
-          const descText = document.querySelector(
-            "p.Typography-sc-1his0m9-0.ixVCar"
-          ).textContent;
+          const descText =
+            document
+              .querySelector("div.GridSystem__GridCell-sc-15162af-0.cprjck")
+              .querySelector("p.Typography-sc-1his0m9-0.gjMwJH").textContent ||
+            `Ei kuvausta.\n${url}`;
 
-          const imageText = document
-            .querySelector("img.ResponsiveImage__Img-sc-yvl7gl-0.gpkPTK")
-            .getAttribute("src");
+          const imageText =
+            document
+              .querySelector(
+                "div.GridSystem__GridCell-sc-15162af-0.cavjrf.GridMedia__StyledGridImage-sc-ya5uyu-0.bzlYEb"
+              )
+              .querySelector("img.ResponsiveImage__Img-sc-yvl7gl-0.gpkPTK")
+              .getAttribute("src") ||
+            `https://yle.fi/uutiset/assets/img/share_image_v1.png`;
 
-          const linkText = document
-            .querySelector(
-              "a.GridSystem__GridRow-sc-15162af-1.gLjaGI.visitableLink"
-            )
-            .getAttribute("href");
+          const linkText =
+            document
+              .querySelector(
+                "h3.Typography-sc-1his0m9-0.CardHeading__Heading-sc-1b16hi0-0.kPXLsQ.gBvjDy.link-accent"
+              )
+              .querySelector("a.underlay-link.visitable-link")
+              .getAttribute("href") || `${url}`;
 
-          const timeText = document.querySelector(
-            "time.DateTime__Time-sc-327z34-0.fNRHDu"
-          ).textContent;
+          const timeText =
+            document
+              .querySelector("div.GridSystem__GridCell-sc-15162af-0.cprjck")
+              .querySelector("time.DateTime___StyledTime-sc-327z34-0.HgoPW")
+              .textContent || "Tänään";
 
-          const subjectText = document.querySelector(
-            "span.Tag__Chip-sc-d06pgy-2.grlKv"
-          ).textContent;
+          const subjectText =
+            document
+              .querySelector("div.GridSystem__GridCell-sc-15162af-0.cprjck")
+              .querySelector("a.Tag__Chip-sc-d06pgy-2.grlKv").textContent || "Uutiset";
 
           colorThief.getColor(`${imageText}`).then(async (color) => {
             const imageColorHex =
@@ -58,9 +71,9 @@ module.exports = {
               .setTitle(`${titleText}`)
               .setURL(`https://yle.fi${linkText}`)
               .setDescription(`${descText}`)
-              .setAuthor(`yle.fi`)
+              .setAuthor(`yle.fi`, "https://yle.fi/uutiset/assets/img/touch-icons/180px.png", "https://yle.fi/uutiset/")
               .setImage(`${imageText}`)
-              .setFooter(`${subjectText} | Julkaistu klo ${timeText}`);
+              .setFooter(`${timeText} | ${subjectText}`);
 
             message.channel.send({ embeds: [newsEmbed] });
 
@@ -73,8 +86,8 @@ module.exports = {
               });
           });
         })
-        .catch((err) => {
-          console.log(err);
+        .catch((error) => {
+          console.log(error);
           message.reply(`:x: **Tapahtui virhe:**\n\`${error}\``);
         });
     });

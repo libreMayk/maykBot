@@ -29,7 +29,7 @@ module.exports = {
     }).then((res) =>
       res.json().then((data) => {
         const covidEmbed = new MessageEmbed()
-          .setAuthor("thl.fi")
+          .setAuthor("thl.fi", "https://thl.fi/documents/10531/178766/THL_pallo_RGB_vihrea_100x100.png/", "https://thl.fi/fi/web/infektiotaudit-ja-rokotukset/ajankohtaista/ajankohtaista-koronaviruksesta-covid-19/")
           .setTitle("COVID-19 Info")
           .setURL("https://thl.fi/")
           .setDescription(

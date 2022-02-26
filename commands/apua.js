@@ -15,7 +15,8 @@ module.exports = {
       .setColor("BLURPLE")
       .setAuthor(
         "mayk.fi",
-        "https://www.mayk.fi/wp-content/uploads/2017/06/favicon.png"
+        "https://www.mayk.fi/wp-content/uploads/2017/06/favicon.png",
+        "https://mayk.fi/"
       )
       .setTitle("Kaikki komennot")
       .setDescription("Näyttää kaikki komennot.")

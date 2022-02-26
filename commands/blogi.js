@@ -57,7 +57,8 @@ module.exports = {
               .setURL(`${link}`)
               .setAuthor(
                 "mayk.fi",
-                "https://www.mayk.fi/wp-content/uploads/2017/06/favicon.png"
+                "https://www.mayk.fi/wp-content/uploads/2017/06/favicon.png",
+                "https://mayk.fi/blogi"
               )
               .setDescription(`${desc}`)
               .setImage(`${img}`)
@@ -74,8 +75,8 @@ module.exports = {
               });
           });
         })
-        .catch((err) => {
-          console.log(err);
+        .catch((error) => {
+          console.log(error);
           message.reply(`:x: **Tapahtui virhe:**\n\`${error}\``);
         });
     });
