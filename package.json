@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
+    "start": "node .",
     "heroku-prebuild": "mkdir -p test/json && git config --global url.\"https://\".insteadOf ssh://"
   },
   "repository": {
@@ -45,8 +44,10 @@
     "jsdom": "^19.0.0",
     "jsprim": "^1.4.2",
     "mathjs": "^10.0.0",
-    "node-fetch": "^3.1.0",
+    "minimist": "^1.2.6",
+    "node-fetch": "^3.2.3",
     "nodemon": "^2.0.15",
-    "pngjs": "^3.3.3"
+    "pngjs": "^3.3.3",
+    "simple-get": "^4.0.1"
   }
 }
