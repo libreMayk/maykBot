@@ -16,7 +16,7 @@ module.exports = {
   cooldown: 15,
   usage: ``,
   async execute(message, args) {
-    message.reply(":gear: Odota hetki, info lataa...").then((sentMessage) => {
+    message.reply(":gear: Odota hetki, data lataa...").then((sentMessage) => {
       const ruokaEmbed = new MessageEmbed()
         .setTitle(`Ruoka`)
         .setColor("GREEN")

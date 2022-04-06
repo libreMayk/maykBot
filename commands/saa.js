@@ -15,7 +15,7 @@ module.exports = {
   cooldown: 2,
   usage: ``,
   async execute(message, args, client) {
-    message.reply(":gear: Odota hetki, info lataa...").then((sentMessage) => {
+    message.reply(":gear: Odota hetki, data lataa...").then((sentMessage) => {
       setTimeout(() => {
         sentMessage.edit(`:white_check_mark: **Data on ladattu!**`).then(() => {
           setTimeout(() => {

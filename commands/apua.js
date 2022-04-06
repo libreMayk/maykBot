@@ -1,4 +1,5 @@
 const { MessageEmbed, MessageButton } = require("discord.js");
+const exps = require("../exports.json");
 
 module.exports = {
   name: "apua",
@@ -13,17 +14,10 @@ module.exports = {
   async execute(message, args, command, client) {
     const helpEmbed = new MessageEmbed()
       .setColor("BLURPLE")
-      .setAuthor(
-        "mayk.fi",
-        "https://www.mayk.fi/wp-content/uploads/2017/06/favicon.png",
-        "https://mayk.fi/"
-      )
+      .setAuthor("mayk.fi", exps.maykLogoURL, "https://mayk.fi/")
       .setTitle("Kaikki komennot")
       .setDescription("Näyttää kaikki komennot.")
-      .setFooter(
-        "mayk.fi",
-        "https://www.mayk.fi/wp-content/uploads/2017/06/favicon.png"
-      );
+      .setFooter("mayk.fi", exps.maykLogoURL);
 
     message.client.commands
       .filter((cmd) => cmd.name !== "help")

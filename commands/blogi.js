@@ -3,6 +3,7 @@ const { MessageEmbed } = require("discord.js");
 const got = (...args) => import("got").then(({ default: got }) => got(...args));
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
+const exps = require("../exports.json");
 
 module.exports = {
   name: "blogi",
@@ -17,7 +18,7 @@ module.exports = {
   async execute(message, args) {
     const url = "https://www.mayk.fi/blogi/";
 
-    message.reply(":gear: Odota hetki, info lataa...").then((sentMessage) => {
+    message.reply(":gear: Odota hetki, data lataa...").then((sentMessage) => {
       got(url)
         .then((response) => {
           const dom = new JSDOM(response.body);
@@ -55,11 +56,7 @@ module.exports = {
               .setColor(`${imageColorHex}`)
               .setTitle(`${title}`)
               .setURL(`${link}`)
-              .setAuthor(
-                "mayk.fi",
-                "https://www.mayk.fi/wp-content/uploads/2017/06/favicon.png",
-                "https://mayk.fi/blogi"
-              )
+              .setAuthor("mayk.fi", exps.maykLogoURL, "https://mayk.fi/blogi")
               .setDescription(`${desc}`)
               .setImage(`${img}`)
               .setFooter(`${time}`);

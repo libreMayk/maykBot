@@ -2,6 +2,7 @@ const { MessageEmbed } = require("discord.js");
 const got = (...args) => import("got").then(({ default: got }) => got(...args));
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
+const exps = require("../exports.json");
 
 module.exports = {
   name: "cal",
@@ -19,7 +20,7 @@ module.exports = {
     const dom = new JSDOM();
     const document = dom.window.document;
 
-    message.reply(":gear: Odota hetki, info lataa...").then((sentMessage) => {
+    message.reply(":gear: Odota hetki, data lataa...").then((sentMessage) => {
       got(url).then((response) => {
         document.body.innerHTML = response.body;
         const event = document.querySelectorAll("div.summary");
@@ -59,13 +60,10 @@ module.exports = {
 
         const calEmbed = new MessageEmbed()
           .setColor("BLURPLE")
-          .setTitle("📆 mayk.fi Kalenteri")
+          .setTitle("📆 mayk.fi kalenteri")
           .setURL(url)
           .setDescription(`**${amountArgs()}** tapahtumaa`)
-          .setFooter(
-            `mayk.fi`,
-            "https://www.mayk.fi/wp-content/uploads/2017/06/favicon.png"
-          )
+          .setFooter(`mayk.fi`, exps.maykLogoURL)
           .setTimestamp();
 
         for (let i = 0; i < amountArgs(); i++) {
