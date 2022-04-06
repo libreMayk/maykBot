@@ -45,7 +45,7 @@
     "jsprim": "^1.4.2",
     "mathjs": "^10.0.0",
     "minimist": "^1.2.6",
-    "node-fetch": "^3.2.3",
+    "node-fetch": ">=2.6.7",
     "nodemon": "^2.0.15",
     "pngjs": "^3.3.3",
     "simple-get": "^4.0.1"
