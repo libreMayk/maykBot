@@ -1,6 +1,8 @@
-# maykBot v1.1.0
+# maykBot [DEPRECATED]
 
-Please notice that this bot is still in development, so it may not work as expected. If you want to contribute, please feel free to fork the repository and make a pull request.
+## This bot is no longer being maintained, goto [maykbot-ts](https://github.com/libreMayk/maykbot-ts)
+
+##### Please notice that this bot is still in development, so it may not work as expected. If you want to contribute, please feel free to fork the repository and make a pull request.
 
 ## Purpose
 
